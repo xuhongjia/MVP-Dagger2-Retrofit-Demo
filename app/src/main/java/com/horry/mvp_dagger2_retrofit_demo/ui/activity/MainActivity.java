@@ -1,0 +1,51 @@
+package com.horry.mvp_dagger2_retrofit_demo.ui.activity;
+
+import android.os.Bundle;
+import android.widget.TextView;
+
+
+import com.horry.mvp_dagger2_retrofit_demo.AppComponent;
+import com.horry.mvp_dagger2_retrofit_demo.R;
+import com.horry.mvp_dagger2_retrofit_demo.ui.activity.component.DaggerMainActivityComponent;
+import com.horry.mvp_dagger2_retrofit_demo.ui.activity.module.MainActivityModule;
+import com.horry.mvp_dagger2_retrofit_demo.ui.activity.presenter.MainActivityPresenter;
+
+import javax.inject.Inject;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+
+
+public class MainActivity extends BaseActivity {
+
+    @InjectView(R.id.tv)
+    TextView textView;
+
+    @Inject
+    MainActivityPresenter presenter;
+
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        ButterKnife.inject(this);
+        presenter.showUserName();
+
+    }
+
+    @Override
+    protected void setupActivityComponent(AppComponent appComponent) {
+        DaggerMainActivityComponent.builder()
+                .appComponent(appComponent)
+                .mainActivityModule(new MainActivityModule(this))
+                .build()
+                .inject(this);
+    }
+
+    public void setTextView(String username) {
+        textView.setText(username);
+    }
+
+
+}
