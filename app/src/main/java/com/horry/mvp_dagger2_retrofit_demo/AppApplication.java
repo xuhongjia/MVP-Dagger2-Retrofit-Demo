@@ -2,11 +2,14 @@ package com.horry.mvp_dagger2_retrofit_demo;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Build;
+import android.os.StrictMode;
 
 import com.horry.mvp_dagger2_retrofit_demo.data.AppServiceModule;
 import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiComponent;
 import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiServiceModule;
 import com.horry.mvp_dagger2_retrofit_demo.data.api.DaggerApiComponent;
+import com.squareup.leakcanary.LeakCanary;
 
 /**
  * Created by clevo on 2015/6/9.
@@ -28,11 +31,21 @@ public class AppApplication  extends Application{
                 .appServiceModule(new AppServiceModule())
                 .build();
         apiComponent = DaggerApiComponent.builder().apiServiceModule(new ApiServiceModule()).build();
+        enabledStrictMode();
+        LeakCanary.install(this);
     }
 
 
     public AppComponent getAppComponent() {
         return appComponent;
     }
-
+    private void enabledStrictMode() {
+        if (Build.VERSION.SDK_INT>= Build.VERSION_CODES.GINGERBREAD) {
+            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder() //
+                    .detectAll() //
+                    .penaltyLog() //
+                    .penaltyDeath() //
+                    .build());
+        }
+    }
 }

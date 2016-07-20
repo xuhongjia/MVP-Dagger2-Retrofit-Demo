@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.horry.mvp_dagger2_retrofit_demo">
-
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -15,6 +16,25 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <!--检测内存溢出-->
+        <activity
+            android:theme="@style/leak_canary_Theme.Transparent"
+            android:name="com.squareup.leakcanary.internal.RequestStoragePermissionActivity"
+            android:taskAffinity="com.squareup.leakcanary"
+            android:enabled="false"
+            android:icon="@drawable/leak_canary_icon"
+            android:label="@string/leak_canary_storage_permission_activity_label"
+            />
+        <service
+            android:name="com.squareup.leakcanary.internal.HeapAnalyzerService"
+            android:process=":leakcanary"
+            android:enabled="false"
+            />
+        <service
+            android:name="com.squareup.leakcanary.DisplayLeakService"
+            android:enabled="false"
+            />
     </application>
 
 </manifest>
