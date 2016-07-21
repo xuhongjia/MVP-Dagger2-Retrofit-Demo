@@ -6,10 +6,9 @@ import android.os.Build;
 import android.os.StrictMode;
 
 import com.horry.mvp_dagger2_retrofit_demo.data.AppServiceModule;
-import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiComponent;
-import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiServiceModule;
-import com.horry.mvp_dagger2_retrofit_demo.data.api.DaggerApiComponent;
 import com.squareup.leakcanary.LeakCanary;
+
+import javax.inject.Inject;
 
 /**
  * Created by clevo on 2015/6/9.
@@ -17,7 +16,6 @@ import com.squareup.leakcanary.LeakCanary;
 public class AppApplication  extends Application{
 
     private AppComponent appComponent;
-    public static ApiComponent apiComponent;
 
     public static AppApplication get(Context context){
         return (AppApplication)context.getApplicationContext();
@@ -30,7 +28,6 @@ public class AppApplication  extends Application{
                 .appModule(new AppModule(this))
                 .appServiceModule(new AppServiceModule())
                 .build();
-        apiComponent = DaggerApiComponent.builder().apiServiceModule(new ApiServiceModule()).build();
         enabledStrictMode();
         LeakCanary.install(this);
     }

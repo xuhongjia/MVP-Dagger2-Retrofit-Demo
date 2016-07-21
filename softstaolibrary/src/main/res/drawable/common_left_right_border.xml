@@ -1,0 +1,19 @@
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- This is the main color -->
+    <item android:drawable="@color/white">
+    </item>
+    <!-- This is the line -->
+    <item android:left="1dp">
+        <shape>
+            <solid android:color="#fff" />
+        </shape>
+    </item>
+    <!-- This is the line -->
+    <item android:right="1dp">
+        <shape>
+            <solid android:color="#fff" />
+        </shape>
+    </item>
+
+
+</layer-list>

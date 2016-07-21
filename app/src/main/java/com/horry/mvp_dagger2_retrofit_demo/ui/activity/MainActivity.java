@@ -1,9 +1,11 @@
 package com.horry.mvp_dagger2_retrofit_demo.ui.activity;
 
+import android.app.Application;
 import android.os.Bundle;
 import android.widget.TextView;
 
 
+import com.horry.mvp_dagger2_retrofit_demo.AppApplication;
 import com.horry.mvp_dagger2_retrofit_demo.AppComponent;
 import com.horry.mvp_dagger2_retrofit_demo.R;
 import com.horry.mvp_dagger2_retrofit_demo.ui.activity.component.DaggerMainActivityComponent;
@@ -24,6 +26,8 @@ public class MainActivity extends BaseActivity {
     @Inject
     MainActivityPresenter presenter;
 
+    @Inject
+    Application appApplication;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +35,9 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         ButterKnife.inject(this);
         presenter.showUserName();
-
+        textView.setOnClickListener(v -> {
+            setTextView("xxx");
+        });
     }
 
     @Override

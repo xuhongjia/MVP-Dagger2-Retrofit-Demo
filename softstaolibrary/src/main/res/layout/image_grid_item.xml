@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <com.lizhi.library.widget.LZImageView
+        android:id="@+id/image_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/default_im"
+        android:scaleType="centerInside"
+        android:adjustViewBounds="true"
+        android:layout_margin="5dp"
+        />
+    <ImageView
+        android:id="@+id/del_ic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top|right"
+        android:src="@drawable/delete"
+        />
+
+</FrameLayout>

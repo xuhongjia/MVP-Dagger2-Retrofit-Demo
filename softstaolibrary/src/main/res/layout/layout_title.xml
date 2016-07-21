@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<fragment xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/title"
+    android:name="com.softstao.softstaolibrary.library.widget.TitleBar"
+    android:layout="@layout/title_bar"
+    tools:layout="@layout/title_bar"
+    android:layout_width="fill_parent"
+    app:titlebar_font_color="@color/white"
+    app:titlebar_background="@color/title_text_color"
+    android:layout_height="44dp" />

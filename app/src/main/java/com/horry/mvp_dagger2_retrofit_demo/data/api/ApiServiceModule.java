@@ -28,9 +28,9 @@ public class ApiServiceModule {
 
 
     @Provides @Singleton
-    OkHttpClient provideClient(CookieManager cm){
+    OkHttpClient provideClient(CookieManager cookieManager){
         OkHttpClient.Builder client = new OkHttpClient.Builder();
-        client.cookieJar(new CookieManager());
+        client.cookieJar(cookieManager);
         return client.build();
     }
 
@@ -64,7 +64,7 @@ public class ApiServiceModule {
     @Provides
     @Singleton
     CookieManager provideCookieManager(){
-        return new CookieManager();
+        return CookieManager.get();
     }
 
 }

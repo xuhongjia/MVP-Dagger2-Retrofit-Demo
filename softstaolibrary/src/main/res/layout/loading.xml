@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/loading"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:gravity="center"
+    android:layout_below="@+id/title"
+    android:background="@color/commom_bg"
+    android:orientation="vertical"
+    android:visibility="visible">
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/loading_pb"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:indicator="BallSpinFadeLoader"
+        app:indicator_color="#f8486e"
+        />
+
+    <TextView
+        android:id="@+id/loading_tv"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/running"
+        android:textAppearance="?android:textAppearanceMedium"
+        android:textColor="@color/font_gray"
+        android:textSize="15.0sp"
+        android:visibility="gone" />
+
+    <RelativeLayout
+        android:id="@+id/iv_load"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:gravity="center"
+        android:paddingLeft="12.0dip"
+        android:paddingRight="12.0dip"
+        android:visibility="gone">
+
+        <ImageView
+            android:id="@+id/refresh_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true" />
+
+        <TextView
+            android:id="@+id/refresh_text"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/refresh_btn"
+            android:layout_marginTop="14.0dip"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="3.0dip"
+            android:text="@string/refresh"
+            android:textColor="@color/font_gray"
+            android:textSize="15.0sp" />
+
+        <TextView
+            android:id="@+id/refresh_tip"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/refresh_text"
+            android:layout_marginTop="10.0dip"
+            android:gravity="center_horizontal"
+            android:lineSpacingExtra="3.0dip"
+            android:text="@string/refresh"
+            android:textColor="@color/font_gray"
+            android:textSize="12.0sp"
+            android:visibility="gone" />
+    </RelativeLayout>
+
+</LinearLayout>
