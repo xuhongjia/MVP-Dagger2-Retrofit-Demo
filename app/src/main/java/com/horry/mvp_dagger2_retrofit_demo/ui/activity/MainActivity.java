@@ -14,13 +14,13 @@ import com.horry.mvp_dagger2_retrofit_demo.ui.activity.presenter.MainActivityPre
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.InjectView;
 
 
 public class MainActivity extends BaseActivity {
 
-    @InjectView(R.id.tv)
+    @BindView(R.id.tv)
     TextView textView;
 
     @Inject
@@ -33,7 +33,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ButterKnife.inject(this);
+        ButterKnife.bind(this);
         presenter.showUserName();
         textView.setOnClickListener(v -> {
             setTextView("xxx");
