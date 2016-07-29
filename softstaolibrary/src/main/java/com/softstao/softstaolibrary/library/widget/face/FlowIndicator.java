@@ -34,7 +34,7 @@ public interface FlowIndicator {
 	 * 
 	 * @param view
 	 */
-	public void setWorkspace(Workspace view);
+	void setWorkspace(Workspace view);
 
 	/**
 	 * The scroll position has been changed. A FlowIndicator may implement this
@@ -45,7 +45,7 @@ public interface FlowIndicator {
 	 * @param oldh
 	 * @param oldv
 	 */
-	public void onWorkspaceScrollChanged(int h, int v, int oldh, int oldv);
+	void onWorkspaceScrollChanged(int h, int v, int oldh, int oldv);
 	
-	public void onScreenChanged(View view, int position);
+	void onScreenChanged(View view, int position);
 }

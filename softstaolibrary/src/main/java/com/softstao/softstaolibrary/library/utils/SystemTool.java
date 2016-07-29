@@ -150,13 +150,9 @@ public final class SystemTool {
                 .getRunningAppProcesses();
         for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
             if (appProcess.processName.equals(context.getPackageName())) {
-                if (appProcess.importance == ActivityManager.RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
-                    // 后台运行
-                    return true;
-                } else {
-                    // 前台运行
-                    return false;
-                }
+                // 后台运行
+// 前台运行
+                return appProcess.importance == RunningAppProcessInfo.IMPORTANCE_BACKGROUND;
             }
         }
         return false;

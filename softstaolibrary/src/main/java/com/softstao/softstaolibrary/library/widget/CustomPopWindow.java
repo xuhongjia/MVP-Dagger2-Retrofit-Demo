@@ -107,7 +107,7 @@ public class CustomPopWindow extends PopupWindow {
 
     public interface OnPopWindowListener
     {
-        public void onCancel();
-        public void onConfirm();
+        void onCancel();
+        void onConfirm();
     }
 }

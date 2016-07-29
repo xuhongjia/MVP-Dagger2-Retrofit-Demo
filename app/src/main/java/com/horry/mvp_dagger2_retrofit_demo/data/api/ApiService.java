@@ -14,5 +14,5 @@ import retrofit2.http.GET;
 public interface ApiService {
 
     @GET("/users")
-    public void getUsers(Callback<List<User>> callback);
+    void getUsers(Callback<List<User>> callback);
 }

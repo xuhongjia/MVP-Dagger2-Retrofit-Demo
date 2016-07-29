@@ -29,8 +29,8 @@ public class UploadImageView extends LZImageView {
 
     public interface OnUploadListener
     {
-        public void onUploadSuccess();
-        public void onUploadFailed();
+        void onUploadSuccess();
+        void onUploadFailed();
     }
 
 }

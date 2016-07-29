@@ -450,7 +450,7 @@ public class ChangeAddressBottomDialog extends Dialog implements View.OnClickLis
 	}
 
 	public interface OnAddressCListener {
-		public void onClick(String province, String city, String area);
+		void onClick(String province, String city, String area);
 	}
 	
 	public void setTextviewSize(String curriteItemText, AddressTextAdapter adapter) {

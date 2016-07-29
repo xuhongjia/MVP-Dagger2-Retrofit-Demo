@@ -74,11 +74,8 @@ public class LZUtils {
                 .compile(
                         "^1[3-8]+\\d{9}$")
                 .matcher(mobile);
-        if ((!TextUtils.isEmpty(mobile)) && (localMatcher.matches())) {
-            return true;
-        }
+        return (!TextUtils.isEmpty(mobile)) && (localMatcher.matches());
 
-        return false;
     }
 
     public static boolean isEmail(String email)
@@ -472,11 +469,7 @@ public class LZUtils {
     private static boolean isNumeric(String str) {
         Pattern pattern = Pattern.compile("[0-9]*");
         Matcher isNum = pattern.matcher(str);
-        if (isNum.matches()) {
-            return true;
-        } else {
-            return false;
-        }
+        return isNum.matches();
     }
 
     /**

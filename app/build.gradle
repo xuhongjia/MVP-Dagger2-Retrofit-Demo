@@ -1,7 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'com.neenbedankt.android-apt'
 apply plugin: 'me.tatarka.retrolambda'
-
 android {
     compileSdkVersion 23
     buildToolsVersion "23.0.3"
@@ -33,19 +32,24 @@ dependencies {
     compile 'com.google.dagger:dagger:2.5'
     apt 'com.google.dagger:dagger-compiler:2.5'
     provided 'org.glassfish:javax.annotation:10.0-b28'
-    //retrofit
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile ('com.squareup.retrofit2:adapter-rxjava:2.1.0'){
-        exclude module: 'okhttp'
-        exclude module: 'okio'
-        exclude module: 'retrofit'
-    }
-    compile ('com.squareup.retrofit2:converter-gson:2.1.0'){
-        exclude module: 'okhttp'
-        exclude module: 'okio'
-        exclude module: 'retrofit'
-    }
+//    //retrofit
+//    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+//    compile ('com.squareup.retrofit2:adapter-rxjava:2.1.0'){
+//        exclude module: 'okhttp'
+//        exclude module: 'okio'
+//        exclude module: 'retrofit'
+//    }
+//    compile ('com.squareup.retrofit2:converter-gson:2.1.0'){
+//        exclude module: 'okhttp'
+//        exclude module: 'okio'
+//        exclude module: 'retrofit'
+//    }
     //    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    //butterknifes
+    compile('com.jakewharton:butterknife:8.2.1') {
+        exclude module: 'support-annotations'
+    }
+    apt 'com.jakewharton:butterknife-compiler:8.2.1'
     //内存溢出检测
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'

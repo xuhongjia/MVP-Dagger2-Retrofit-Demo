@@ -160,7 +160,7 @@ public class CustomDialog extends Dialog {
 
         public interface  OnDialogConfirmListener
         {
-            public void onConfirm();
+            void onConfirm();
         }
 
         public void setOnDialogConfirmListener(OnDialogConfirmListener onDialogConfirmListener) {

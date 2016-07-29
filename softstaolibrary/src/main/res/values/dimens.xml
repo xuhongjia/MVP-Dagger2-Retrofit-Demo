@@ -4,4 +4,6 @@
     <dimen name="activity_vertical_margin">16dp</dimen>
     <dimen name="line">0.3dip</dimen>
     <dimen name="item_margin">8dp</dimen>
+
+    <dimen name="lce_content_view_animation_translate_y">40dp</dimen>
 </resources>

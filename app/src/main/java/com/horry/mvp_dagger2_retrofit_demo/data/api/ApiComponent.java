@@ -14,7 +14,6 @@ import retrofit2.Retrofit;
 @Singleton
 @Component(modules = ApiServiceModule.class)
 public interface ApiComponent {
-    void inject(BasePresenter basePresenter);
 
     CookieManager getCookieManager();
 
