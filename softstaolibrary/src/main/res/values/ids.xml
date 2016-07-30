@@ -35,8 +35,8 @@
   <item type="id" name="split">false</item>
 
   <!--content-->
-  <item name="contentView" type="id"/>
-  <item name="errorView" type="id"/>
-  <item name="loadingView" type="id"/>
-  <item name="errorMsg" type="id"/>
+  <!--<item name="contentView" type="id"/>-->
+  <!--<item name="errorView" type="id"/>-->
+  <!--<item name="loadingView" type="id"/>-->
+  <!--<item name="errorMsg" type="id"/>-->
 </resources>

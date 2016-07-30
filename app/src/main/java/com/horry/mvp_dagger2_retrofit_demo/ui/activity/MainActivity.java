@@ -34,6 +34,7 @@ public class MainActivity extends BaseActivity implements MainViewer{
 
     @Override
     public void initView() {
+        initTitle("首页");
         presenter.showUserName();
         textView.setOnClickListener(v -> {
             setTextView("xxx");
@@ -53,5 +54,8 @@ public class MainActivity extends BaseActivity implements MainViewer{
         textView.setText(username);
     }
 
-
+    @Override
+    public void loadData(boolean pullToRefresh) {
+        super.loadData(pullToRefresh);
+    }
 }

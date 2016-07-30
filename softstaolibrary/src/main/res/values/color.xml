@@ -1,10 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!--主题颜色-->
     <color name="navigationBarColor">#FF4081</color>
     <color name="colorPrimary">#3dbdc6</color>
     <color name="colorPrimaryDark">#3dbdc6</color>
     <color name="colorAccent">#3dbdc6</color>
     <color name="colorPrimaryDarkTrans">#CCf57257</color>
+
+    <color name="bg_gary_ef">#efefef</color>
     <color name="red">#ff0000</color>
     <color name="white">#fff</color>
     <color name="theme_color">#f16074</color>

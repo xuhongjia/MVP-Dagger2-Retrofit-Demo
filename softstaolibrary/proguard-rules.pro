@@ -165,15 +165,15 @@
 -keep class com.squareup.okhttp3.** { *;}
 -dontwarn okio.**
 #sharesdk
--keep class cn.sharesdk.**{*;}
--keep class com.sina.**{*;}
--keep class **.R$* {*;}
--keep class **.R{*;}
+#-keep class cn.sharesdk.**{*;}
+#-keep class com.sina.**{*;}
+#-keep class **.R$* {*;}
+#-keep class **.R{*;}
 
--keep class com.mob.**{*;}
--dontwarn com.mob.**
--dontwarn cn.sharesdk.**
--dontwarn **.R$*
+#-keep class com.mob.**{*;}
+#-dontwarn com.mob.**
+#-dontwarn cn.sharesdk.**
+#-dontwarn **.R$*
 
 ## nineoldandroids-2.4.0.jar
 -keep public class com.nineoldandroids.** {*;}
@@ -187,34 +187,34 @@
 -dontwarn com.baidu.**
 
 ## okhttp
--dontwarn com.squareup.okhttp.**
--keep class com.squareup.okhttp.{*;}
+#-dontwarn com.squareup.okhttp.**
+#-keep class com.squareup.okhttp.{*;}
 #retrofit
--dontwarn retrofit.**
--keep class retrofit.** { *; }
--keepattributes Signature
--keepattributes Exceptions
--dontwarn okio.**
+#-dontwarn retrofit.**
+#-keep class retrofit.** { *; }
+#-keepattributes Signature
+#-keepattributes Exceptions
+#-dontwarn okio.**
 
 #recyclerview-animators
 -keep class jp.wasabeef.** {*;}
 -dontwarn jp.wasabeef.*
 
 #multistateview
--keep class com.kennyc.view.** { *; }
--dontwarn com.kennyc.view.*
+#-keep class com.kennyc.view.** { *; }
+#-dontwarn com.kennyc.view.*
 
 # universal-image-loader 混淆
 -dontwarn com.nostra13.universalimageloader.**
 -keep class com.nostra13.universalimageloader.** { *; }
 
 #ormlite
--keep class com.j256.**
--keepclassmembers class com.j256.** { *; }
--keep enum com.j256.**
--keepclassmembers enum com.j256.** { *; }
--keep interface com.j256.**
--keepclassmembers interface com.j256.** { *; }
+#-keep class com.j256.**
+#-keepclassmembers class com.j256.** { *; }
+#-keep enum com.j256.**
+#-keepclassmembers enum com.j256.** { *; }
+#-keep interface com.j256.**
+#-keepclassmembers interface com.j256.** { *; }
 #umeng
 # ========= 友盟 =================
 -dontshrink
@@ -250,8 +250,8 @@
 
 -keep class com.tencent.mm.sdk.modelmsg.** implements com.tencent.mm.sdk.modelmsg.WXMediaMessage$IMediaObject {*;}
 
--keep class im.yixin.sdk.api.YXMessage {*;}
--keep class im.yixin.sdk.api.** implements im.yixin.sdk.api.YXMessage$YXMessageData{*;}
+#-keep class im.yixin.sdk.api.YXMessage {*;}
+#-keep class im.yixin.sdk.api.** implements im.yixin.sdk.api.YXMessage$YXMessageData{*;}
 #下面中括号的地方需要要填你的包名
 -keep public class com.softstao.softstaolibrary.R$*{
     public static final int *;
@@ -273,41 +273,41 @@
 
 
 #-ButterKnife 7.0
- -keep class butterknife.** { *; }
- -dontwarn butterknife.internal.**
- -keep class **$$ViewBinder { *; }
- -keepclasseswithmembernames class * {
-  @butterknife.* <fields>;
- }
- -keepclasseswithmembernames class * {
- @butterknife.* <methods>;
- }
+# -keep class butterknife.** { *; }
+# -dontwarn butterknife.internal.**
+## -keep class **$$ViewBinder { *; }
+# -keepclasseswithmembernames class * {
+#  @butterknife.* <fields>;
+# }
+# -keepclasseswithmembernames class * {
+# @butterknife.* <methods>;
+# }
 
 
 #AndFix
--keep class * extends java.lang.annotation.Annotation
--keepclasseswithmembernames class * {
-    native <methods>;
-}
+#-keep class * extends java.lang.annotation.Annotation
+#-keepclasseswithmembernames class * {
+#    native <methods>;
+#}
 
 #eventbus 3.0
--keepattributes *Annotation*
--keepclassmembers class ** {
-    @org.greenrobot.eventbus.Subscribe <methods>;
-}
--keep enum org.greenrobot.eventbus.ThreadMode { *; }
--keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
-    <init>(java.lang.Throwable);
-}
+#-keepattributes *Annotation*
+#-keepclassmembers class ** {
+#    @org.greenrobot.eventbus.Subscribe <methods>;
+#}
+#-keep enum org.greenrobot.eventbus.ThreadMode { *; }
+#-keepclassmembers class * extends org.greenrobot.eventbus.util.ThrowableFailureEvent {
+#    <init>(java.lang.Throwable);
+#}
 
 
 #EventBus
--keepclassmembers class ** {
-    public void onEvent*(**);
-}
--keepclassmembers class ** {
-public void xxxxxx(**);
-}
+#-keepclassmembers class ** {
+#    public void onEvent*(**);
+#}
+#-keepclassmembers class ** {
+#public void xxxxxx(**);
+#}
 
 
 ################gson##################
@@ -350,56 +350,56 @@ public void xxxxxx(**);
 -keep public class android.support.design.R$* { *; }
 #-------------------------------------------------------------------------
 
-# picasso
--keep class com.squareup.picasso.** {*; }
--dontwarn com.squareup.picasso.**
+## picasso
+#-keep class com.squareup.picasso.** {*; }
+#-dontwarn com.squareup.picasso.**
 
 #glide
--keep public class * implements com.bumptech.glide.module.GlideModule
--keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
-  **[] $VALUES;
-  public *;
-}
+#-keep public class * implements com.bumptech.glide.module.GlideModule
+#-keep public enum com.bumptech.glide.load.resource.bitmap.ImageHeaderParser$** {
+#  **[] $VALUES;
+#  public *;
+#}
 
 # #  ######## greenDao混淆  ##########
 # # -------------------------------------------
--keep class de.greenrobot.dao.** {*;}
--keepclassmembers class * extends de.greenrobot.dao.AbstractDao {
-    public static Java.lang.String TABLENAME;
-}
--keep class **$Properties
+#-keep class de.greenrobot.dao.** {*;}
+#-keepclassmembers class * extends de.greenrobot.dao.AbstractDao {
+#    public static Java.lang.String TABLENAME;
+#}
+#-keep class **$Properties
 # #  ############### volley混淆  ###############
 # # -------------------------------------------
--keep class com.android.volley.** {*;}
--keep class com.android.volley.toolbox.** {*;}
--keep class com.android.volley.Response$* { *; }
--keep class com.android.volley.Request$* { *; }
--keep class com.android.volley.RequestQueue$* { *; }
--keep class com.android.volley.toolbox.HurlStack$* { *; }
--keep class com.android.volley.toolbox.ImageLoader$* { *; }
+#-keep class com.android.volley.** {*;}
+#-keep class com.android.volley.toolbox.** {*;}
+#-keep class com.android.volley.Response$* { *; }
+#-keep class com.android.volley.Request$* { *; }
+#-keep class com.android.volley.RequestQueue$* { *; }
+#-keep class com.android.volley.toolbox.HurlStack$* { *; }
+#-keep class com.android.volley.toolbox.ImageLoader$* { *; }
 
 #jpush极光推送
--dontwarn cn.jpush.**
--keep class cn.jpush.** { *; }
+#-dontwarn cn.jpush.**
+#-keep class cn.jpush.** { *; }
 
 #activeandroid
--keep class com.activeandroid.** { *; }
--dontwarn com.ikoding.app.biz.dataobject.**
--keep public class com.ikoding.app.biz.dataobject.** { *;}
--keepattributes *Annotation*
+#-keep class com.activeandroid.** { *; }
+#-dontwarn com.ikoding.app.biz.dataobject.**
+#-keep public class com.ikoding.app.biz.dataobject.** { *;}
+#-keepattributes *Annotation*
 
 #log4j
--dontwarn org.apache.log4j.**
--keep class  org.apache.log4j.** { *;}
+#-dontwarn org.apache.log4j.**
+#-keep class  org.apache.log4j.** { *;}
 #下面几行 是环信即时通信的代码混淆
--keep class com.easemob.** {*;}
--keep class org.jivesoftware.** {*;}
--dontwarn  com.easemob.**
+#-keep class com.easemob.** {*;}
+#-keep class org.jivesoftware.** {*;}
+#-dontwarn  com.easemob.**
 
 #融云
--keepclassmembers class fqcn.of.javascript.interface.for.webview {
- public *;
-}
+#-keepclassmembers class fqcn.of.javascript.interface.for.webview {
+# public *;
+#}
 
 -keepattributes Exceptions,InnerClasses
 
@@ -415,20 +415,20 @@ public void xxxxxx(**);
 
 -keep class com.google.gson.examples.android.model.** { *; }
 
--keepclassmembers class * extends com.sea_monster.dao.AbstractDao {
- public static java.lang.String TABLENAME;
-}
--keep class **$Properties
--dontwarn org.eclipse.jdt.annotation.**
+#-keepclassmembers class * extends com.sea_monster.dao.AbstractDao {
+# public static java.lang.String TABLENAME;
+#}
+#-keep class **$Properties
+#-dontwarn org.eclipse.jdt.annotation.**
 
--keep class com.ultrapower.** {*;}
+#-keep class com.ultrapower.** {*;}
 #高徳地图
--dontwarn com.amap.api.**
--dontwarn com.a.a.**
--dontwarn com.autonavi.**
--keep class com.amap.api.**  {*;}
--keep class com.autonavi.**  {*;}
--keep class com.a.a.**  {*;}
+#-dontwarn com.amap.api.**
+#-dontwarn com.a.a.**
+#-dontwarn com.autonavi.**
+#-keep class com.amap.api.**  {*;}
+#-keep class com.autonavi.**  {*;}
+#-keep class com.a.a.**  {*;}
 #---------------------------------反射相关的类和方法-----------------------
 #在这下面写反射相关的类和方法，没有就不用写！
 
@@ -445,14 +445,14 @@ public void xxxxxx(**);
 #SuperID
 #由*郭宇翔*贡献混淆代码
 #作者Github地址：https://github.com/yourtion
--keep class **.R$* {*;}
--keep class com.isnc.facesdk.aty.**{*;}
--keep class com.isnc.facesdk.**{*;}
--keep class com.isnc.facesdk.common.**{*;}
--keep class com.isnc.facesdk.net.**{*;}
--keep class com.isnc.facesdk.view.**{*;}
--keep class com.isnc.facesdk.viewmodel.**{*;}
--keep class com.matrixcv.androidapi.face.**{*;}
+#-keep class **.R$* {*;}
+#-keep class com.isnc.facesdk.aty.**{*;}
+#-keep class com.isnc.facesdk.**{*;}
+#-keep class com.isnc.facesdk.common.**{*;}
+#-keep class com.isnc.facesdk.net.**{*;}
+#-keep class com.isnc.facesdk.view.**{*;}
+#-keep class com.isnc.facesdk.viewmodel.**{*;}
+#-keep class com.matrixcv.androidapi.face.**{*;}
 
 #retrofit2.x
 -dontwarn retrofit2.**
@@ -478,6 +478,6 @@ public void xxxxxx(**);
 }
 
 #fastJson
--dontwarn com.alibaba.fastjson.**
--keep class com.alibaba.fastjson.** { *; }
+#-dontwarn com.alibaba.fastjson.**
+#-keep class com.alibaba.fastjson.** { *; }
 
