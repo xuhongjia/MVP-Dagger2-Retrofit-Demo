@@ -36,6 +36,7 @@ public abstract class BaseActivity extends MvpBaseActivity {
         setupActivityComponent(AppApplication.get(this).getAppComponent());
         ButterKnife.bind(this);
         initView();
+        scrollerView.setOnScrollChangedListener(this);
         imageHeight= LZUtils.dipToPix(this,140);
     }
 
@@ -55,6 +56,7 @@ public abstract class BaseActivity extends MvpBaseActivity {
     public void onScrollChanged(int var1, int var2, int var3, int var4) {
         if(var4-var2>0) {
             canLoad=true;
+            showLoader(false);
         }
         yScroll=var2;
         if (var2 <= 0) {
@@ -63,6 +65,7 @@ public abstract class BaseActivity extends MvpBaseActivity {
             float scale = (float) var2 / imageHeight;
             float alpha = (255 * scale);
             // 只是layout背景透明(仿知乎滑动效果)
+            //设置滑动渐变颜色
             titleBar.setBackgroundColor(Color.argb((int) alpha, 255, 255, 255));
         } else {
             titleBar.setBackgroundColor(Color.argb((int) 255, 255, 255, 255));
@@ -88,10 +91,10 @@ public abstract class BaseActivity extends MvpBaseActivity {
 
     private void showLoader(boolean isShow){
         if(isShow){
-            loadingView.setVisibility(View.VISIBLE);
+            loaderLayout.setVisibility(View.VISIBLE);
         }
         else{
-            loadingView.setVisibility(View.GONE);
+            loaderLayout.setVisibility(View.GONE);
         }
     }
 
