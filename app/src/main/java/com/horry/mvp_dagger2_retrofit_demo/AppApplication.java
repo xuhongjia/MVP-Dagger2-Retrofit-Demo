@@ -17,8 +17,7 @@ import retrofit2.Retrofit;
  * Created by clevo on 2015/6/9.
  */
 public class AppApplication  extends Application{
-    @Inject
-    public static Retrofit retrofit;
+
     private AppComponent appComponent;
 
     public static AppApplication get(Context context){

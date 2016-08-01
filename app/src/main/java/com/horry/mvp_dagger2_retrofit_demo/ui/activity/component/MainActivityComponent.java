@@ -15,10 +15,8 @@ import dagger.Component;
  */
 @ActivityScope
 @Component(modules = MainActivityModule.class,dependencies = AppComponent.class)
-public interface MainActivityComponent {
-    MainActivity inject(MainActivity mainActivity);
-
+public interface MainActivityComponent extends BaseActivityComponent{
+    void inject(MainActivity mainActivity);
     MainActivityPresenter presenter();
-
 
 }

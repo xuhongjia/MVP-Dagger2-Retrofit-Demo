@@ -12,6 +12,7 @@ import com.horry.mvp_dagger2_retrofit_demo.ui.activity.component.DaggerMainActiv
 import com.horry.mvp_dagger2_retrofit_demo.ui.activity.module.MainActivityModule;
 import com.horry.mvp_dagger2_retrofit_demo.ui.activity.presenter.MainActivityPresenter;
 import com.horry.mvp_dagger2_retrofit_demo.ui.activity.viewer.home.MainViewer;
+import com.softstao.softstaolibrary.library.mvp.viewer.BaseViewer;
 
 import javax.inject.Inject;
 

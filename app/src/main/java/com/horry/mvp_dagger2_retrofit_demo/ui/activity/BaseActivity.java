@@ -7,6 +7,7 @@ import android.view.View;
 import com.horry.mvp_dagger2_retrofit_demo.AppApplication;
 import com.horry.mvp_dagger2_retrofit_demo.AppComponent;
 import com.horry.mvp_dagger2_retrofit_demo.R;
+import com.horry.mvp_dagger2_retrofit_demo.ui.activity.presenter.BasePresenter;
 import com.softstao.softstaolibrary.library.mvp.activity.MvpBaseActivity;
 import com.softstao.softstaolibrary.library.utils.LZUtils;
 
@@ -22,6 +23,9 @@ import retrofit2.Retrofit;
  * Created by clevo on 2015/6/10.
  */
 public abstract class BaseActivity extends MvpBaseActivity {
+    @Inject
+    public Retrofit retrofit;
+
 
     private int yScroll=0;
     private int imageHeight ;
@@ -63,7 +67,7 @@ public abstract class BaseActivity extends MvpBaseActivity {
     public void onScrollChanged(int var1, int var2, int var3, int var4) {
         if(var4-var2>0) {
             canLoad=true;
-            showLoader(false);
+//            showLoader(false);
         }
         yScroll=var2;
         if(titleBar!=null&&isChange){

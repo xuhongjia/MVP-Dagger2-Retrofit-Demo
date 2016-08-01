@@ -63,7 +63,7 @@ public abstract class BaseFragment extends MvpBaseFragment {
 //            showLoader(false);
         }
         yScroll=var2;
-        if(titleBar!=null){
+        if(titleBar!=null&&isChange){
             if (var2 <= 0) {
                 titleBar.setBackgroundColor(Color.TRANSPARENT);//AGB由相关工具获得，或者美工提供
             } else if (var2 > 0 && var2 <= imageHeight) {
