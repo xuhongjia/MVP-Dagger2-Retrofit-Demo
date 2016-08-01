@@ -1,28 +1,23 @@
-package com.horry.mvp_dagger2_retrofit_demo.ui.activity;
+package com.horry.mvp_dagger2_retrofit_demo.ui.fragment;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.view.View;
 
 import com.horry.mvp_dagger2_retrofit_demo.AppApplication;
 import com.horry.mvp_dagger2_retrofit_demo.AppComponent;
 import com.horry.mvp_dagger2_retrofit_demo.R;
-import com.softstao.softstaolibrary.library.mvp.activity.MvpBaseActivity;
+import com.softstao.softstaolibrary.library.mvp.fragment.MvpBaseFragment;
 import com.softstao.softstaolibrary.library.utils.LZUtils;
 
-import javax.inject.Inject;
-
 import butterknife.ButterKnife;
-import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
-import retrofit2.Retrofit;
-
 
 /**
- * Created by clevo on 2015/6/10.
+ * Created by xuhon on 2016/7/31.
  */
-public abstract class BaseActivity extends MvpBaseActivity {
-
+public abstract class BaseFragment extends MvpBaseFragment {
     private int yScroll=0;
     private int imageHeight ;
     protected int pageSize = 8;
@@ -35,38 +30,40 @@ public abstract class BaseActivity extends MvpBaseActivity {
 
     private boolean isChange=false;
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setupActivityComponent(AppApplication.get(this).getAppComponent());
-        ButterKnife.bind(this);
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        scrollerView.setOnScrollChangedListener(this);
+        imageHeight= LZUtils.dipToPix(getActivity(),140);
         initView();
         red = Color.red(getResources().getColor(R.color.colorPrimary));
         green = Color.green(getResources().getColor(R.color.colorPrimary));
         blue = Color.blue(getResources().getColor(R.color.colorPrimary));
-        scrollerView.setOnScrollChangedListener(this);
-        imageHeight= LZUtils.dipToPix(this,140);
+        setupFragmentComponent(AppApplication.get(getActivity()).getAppComponent());
     }
 
     public abstract void initView();
 
-    protected abstract  void setupActivityComponent(AppComponent appComponent);
+    protected abstract  void setupFragmentComponent(AppComponent appComponent);
+
+
+    @Override
+    public void setButterKnife(View view) {
+        ButterKnife.bind(view);
+    }
+
     @Override
     protected String getErrorMessage(Throwable e, boolean pullToRefresh) {
         return e.getMessage();
-    }
-    @Override
-    public void loadData(boolean pullToRefresh) {
-        showLoading(pullToRefresh);
     }
 
     @Override
     public void onScrollChanged(int var1, int var2, int var3, int var4) {
         if(var4-var2>0) {
             canLoad=true;
-            showLoader(false);
+//            showLoader(false);
         }
         yScroll=var2;
-        if(titleBar!=null&&isChange){
+        if(titleBar!=null){
             if (var2 <= 0) {
                 titleBar.setBackgroundColor(Color.TRANSPARENT);//AGB由相关工具获得，或者美工提供
             } else if (var2 > 0 && var2 <= imageHeight) {
@@ -115,17 +112,12 @@ public abstract class BaseActivity extends MvpBaseActivity {
 
     @Override
     public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-        return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
+        return false;
     }
 
     @Override
     public void onRefreshBegin(PtrFrameLayout frame) {
-        currentPage=0;
         loadData(true);
-        frame.postDelayed(()->  {
-            ptrFrameLayout.refreshComplete();
-            ptrFrameLayout.requestLayout();
-        }, 1800);
     }
 
     public int getImageHeight() {
@@ -133,7 +125,7 @@ public abstract class BaseActivity extends MvpBaseActivity {
     }
 
     public void setImageHeight(int imageHeight) {
-        this.imageHeight = LZUtils.dipToPix(this,imageHeight);
+        this.imageHeight = imageHeight;
     }
 
     public boolean isChange() {

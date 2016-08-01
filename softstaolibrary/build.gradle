@@ -34,21 +34,14 @@ android {
 
 dependencies {
     //zxing扫描
-    compile 'com.google.zxing:core:3.2.1'
-    compile 'cn.bingoogolapple:bga-qrcodecore:1.0.7@aar'
-    compile 'cn.bingoogolapple:bga-zxing:1.0.7@aar'
     //上下拉刷新
 //    compile 'in.srain.cube:ptr-load-more:1.0.3'
-    compile 'in.srain.cube:ultra-ptr:1.0.11'
     //fbButton
-    compile 'info.hoang8f:fbutton:1.0.5'
     //buggly
-    compile 'com.tencent.bugly:crashreport:latest.release'
     //注解
     //    compile 'com.github.wangjiegulu:AndroidBucket:1.0.4'
     //    compile 'com.github.wangjiegulu:AndroidInject:1.0.5'
     //设置systemBar
-    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
     //tabRecycleView
     //    compile 'com.nshmura:recyclertablayout:0.1.1'
     //alert
@@ -58,7 +51,6 @@ dependencies {
         exclude module: 'support-annotations'
         exclude module: 'recyclerview-v7'
     }
-    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile('com.wang.avi:library:1.0.5') {
         exclude module: 'support-v4'
         exclude module: 'appcompat-v7'
@@ -69,7 +61,6 @@ dependencies {
     }
 //    compile 'com.google.code.gson:gson:2.6.2'
     //design库
-    compile 'com.android.support:design:23.2.1'
     //可滑动的RecycleView
     //    compile 'com.tubb.smrv:swipemenu-recyclerview:4.0.5'
     compile files('libs/android-async-http-1.4.9.jar')
@@ -90,18 +81,28 @@ dependencies {
     compile files('libs/SocialSDK_WeiXin_1.jar')
 
     //retrofit
-    compile 'com.squareup.retrofit2:retrofit:2.1.0'
-    compile ('com.squareup.retrofit2:adapter-rxjava:2.1.0'){
+    compile('com.squareup.retrofit2:adapter-rxjava:2.1.0') {
         exclude module: 'okhttp'
         exclude module: 'okio'
         exclude module: 'retrofit'
         exclude module: 'rxjava'
     }
-    compile 'io.reactivex:rxjava:1.1.8'
-    compile 'io.reactivex:rxandroid:1.2.1'
-    compile ('com.squareup.retrofit2:converter-gson:2.1.0'){
+    compile('com.squareup.retrofit2:converter-gson:2.1.0') {
         exclude module: 'okhttp'
         exclude module: 'okio'
         exclude module: 'retrofit'
     }
+    compile 'com.google.zxing:core:3.2.1'
+    compile 'cn.bingoogolapple:bga-qrcodecore:1.0.7@aar'
+    compile 'cn.bingoogolapple:bga-zxing:1.0.7@aar'
+    compile 'in.srain.cube:ultra-ptr:1.0.11'
+    compile 'info.hoang8f:fbutton:1.0.5'
+    compile 'com.tencent.bugly:crashreport:latest.release'
+    compile 'com.readystatesoftware.systembartint:systembartint:1.0.3'
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
+    compile 'com.android.support:design:23.4.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'io.reactivex:rxjava:1.1.8'
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'com.android.support:support-v4:23.4.0'
 }

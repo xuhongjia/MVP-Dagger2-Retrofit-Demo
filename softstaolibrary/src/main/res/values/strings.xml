@@ -25,4 +25,7 @@
     <string name="load_mode_label" translatable="false">加载更多</string>
     <string name="title_activity_base_web_view">BaseWebViewActivity</string>
     <string name="title_activity_crop">CropActivity</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

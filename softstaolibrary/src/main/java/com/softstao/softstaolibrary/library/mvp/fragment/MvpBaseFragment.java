@@ -1,38 +1,33 @@
-package com.softstao.softstaolibrary.library.mvp.activity;
+package com.softstao.softstaolibrary.library.mvp.fragment;
+
 
 import android.os.Bundle;
 import android.support.annotation.CallSuper;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v4.app.Fragment;
 import android.util.DisplayMetrics;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 import com.softstao.softstaolibrary.R;
 import com.softstao.softstaolibrary.library.global.AppManager;
+import com.softstao.softstaolibrary.library.mvp.activity.MvpBaseActivity;
 import com.softstao.softstaolibrary.library.mvp.animator.DefaultAnimator;
 import com.softstao.softstaolibrary.library.mvp.viewer.BaseViewer;
-import com.softstao.softstaolibrary.library.utils.LZUtils;
 import com.softstao.softstaolibrary.library.widget.CustomScrollerView;
 import com.softstao.softstaolibrary.library.widget.ErrorLayout;
 import com.softstao.softstaolibrary.library.widget.TitleBar;
-import com.wang.avi.AVLoadingIndicatorView;
 
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.PtrUIHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 
-/**
- * MVP框架中V的基类
- * Created by xuhon on 2016/7/29.
- */
-public abstract class MvpBaseActivity extends AppCompatActivity implements BaseViewer,PtrHandler,CustomScrollerView.OnScrollChangedListener {
+
+public abstract class MvpBaseFragment extends Fragment implements BaseViewer,PtrHandler,CustomScrollerView.OnScrollChangedListener{
     /**
      * 正在加载的View
      */
@@ -61,30 +56,33 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
     protected TextView loaderText;
 
     protected TitleBar titleBar;
-    protected SystemBarTintManager tintManager ;
+    public MvpBaseFragment() {
+        // Required empty public constructor
+    }
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base_view);
-//        getSupportActionBar().hide();
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        tintManager = new SystemBarTintManager(this);
-        tintManager.setStatusBarTintEnabled(true);
-        tintManager.setNavigationBarTintEnabled(true);
-        tintManager.setStatusBarTintColor(getResources().getColor(R.color.colorPrimary));
-        tintManager.setNavigationBarTintColor(getResources().getColor(R.color.colorPrimary));
-        onContentChanged();
-        addContentView(_setContentView());
-        AppManager.getInstance().add(this);
     }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_mvp_base, container, false);
+        onContentChanged(view);
+        addContentView(_setContentView(),inflater);
+        setButterKnife(view);
+        return view;
+    }
+
     /**
      * 设置头部显示刷新可用
      */
     protected void setPtrFrameLayoutEnable(){
         ptrFrameLayout.setPtrHandler(this);
         ptrFrameLayout.disableWhenHorizontalMove(true);
-        StoreHouseHeader header = new StoreHouseHeader(this);
+        StoreHouseHeader header = new StoreHouseHeader(getActivity());
         header.setPadding(0, 55, 0, 55);
         header.initWithString(getString(R.string.app_name));
         header.setTextColor(getResources().getColor(R.color.colorPrimary));
@@ -100,45 +98,58 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
         ptrFrameLayout.setHeaderView(header);
         ptrFrameLayout.addPtrUIHandler((PtrUIHandler) header);
     }
-    /**
-     * 将视图加进contentView内
-     * @param res_id layout_id
-     */
-    private void addContentView(int res_id){
-        if(contentView!=null){
-            getLayoutInflater().inflate(res_id,contentView,true);
-        }
-    }
+
     /**
      * 初始化标题栏
      * @param title 标题
      */
     public void initTitle(String title) {
-        titleBar = (TitleBar) getSupportFragmentManager().findFragmentById(R.id.title);
+        titleBar = (TitleBar) getChildFragmentManager().findFragmentById(R.id.title);
         titleBar.setBackgroundColor(getResources().getColor(R.color.colorPrimary));
 //        titleBar.setLeftIcon(R.mipmap.black_back);
         titleBar.setFontColor(getResources().getColor(R.color.white));
         titleBar.setBackButtonVisible();
         titleBar.setTitle(title);
         ViewGroup.MarginLayoutParams lp = (ViewGroup.MarginLayoutParams) titleBar.getMainView().getLayoutParams();
-        lp.setMargins(0,tintManager.getConfig().getStatusBarHeight(),0,0);
+        lp.setMargins(0,((MvpBaseActivity)getActivity()).getTintManager().getConfig().getStatusBarHeight(),0,0);
     }
 
+    /**
+     * 设置butterknife注解
+     * @param view
+     */
+    public abstract void setButterKnife(View view);
+
+    /**
+     * 设置contentView内容layout_id
+     * @return
+     */
     public abstract int _setContentView();
+
+    /**
+     * 将视图加进contentView内
+     * @param res_id layout_id
+     * @param inflater
+     */
+    private void addContentView(int res_id,LayoutInflater inflater){
+        if(contentView!=null){
+            inflater.inflate(res_id,contentView,true);
+        }
+    }
+
     /**
      * 加载View
      */
     @CallSuper
-    @Override
-    public void onContentChanged() {
-        loadingView = findViewById(R.id.loading_view);
-        contentView = (LinearLayout) findViewById(R.id.content_view);
-        errorView = (ErrorLayout) findViewById(R.id.error_layout);
-        scrollerView = (CustomScrollerView) findViewById(R.id.scrollView);
-        ptrFrameLayout = (PtrFrameLayout) findViewById(R.id.ptr_frame);
-        loaderLayout = findViewById(R.id.loader_view);
-        loader = findViewById(R.id.loader);
-        loaderText = (TextView) findViewById(R.id.loader_text);
+    public void onContentChanged(View view) {
+        loadingView = view.findViewById(R.id.loading_view);
+        contentView = (LinearLayout) view.findViewById(R.id.content_view);
+        errorView = (ErrorLayout) view.findViewById(R.id.error_layout);
+        scrollerView = (CustomScrollerView) view.findViewById(R.id.scrollView);
+        ptrFrameLayout = (PtrFrameLayout) view.findViewById(R.id.ptr_frame);
+        loaderLayout = view.findViewById(R.id.loader_view);
+        loader = view.findViewById(R.id.loader);
+        loaderText = (TextView) view.findViewById(R.id.loader_text);
         if (loadingView == null) {
             throw new NullPointerException(
                     "Loading view is null! Have you specified a loading view in your layout xml file?"
@@ -170,7 +181,6 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
     protected void onErrorViewClicked() {
         loadData(false);
     }
-
 
     /**
      * 显示加载LoadingView
@@ -219,7 +229,7 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
      * @param msg 错误信息
      */
     protected void showLightError(String msg) {
-        Toast.makeText(this, msg, Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
     }
 
     /**
@@ -247,14 +257,13 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
     }
 
     @Override
-    protected void onDestroy() {
+    public void onDestroy() {
         super.onDestroy();
-        AppManager.getInstance().remove(this);
     }
 
     public int getScreenWidth() {
         DisplayMetrics displaymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int width = displaymetrics.widthPixels;
 
         return width;
@@ -262,17 +271,9 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
 
     public int getScreenHeight(){
         DisplayMetrics displaymetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         int height = displaymetrics.heightPixels;
 
         return height;
-    }
-
-    public SystemBarTintManager getTintManager() {
-        return tintManager;
-    }
-
-    public void setTintManager(SystemBarTintManager tintManager) {
-        this.tintManager = tintManager;
     }
 }
