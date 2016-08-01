@@ -7,7 +7,6 @@ import android.view.View;
 import com.horry.mvp_dagger2_retrofit_demo.AppApplication;
 import com.horry.mvp_dagger2_retrofit_demo.AppComponent;
 import com.horry.mvp_dagger2_retrofit_demo.R;
-import com.horry.mvp_dagger2_retrofit_demo.ui.activity.presenter.BasePresenter;
 import com.softstao.softstaolibrary.library.mvp.activity.MvpBaseActivity;
 import com.softstao.softstaolibrary.library.utils.LZUtils;
 

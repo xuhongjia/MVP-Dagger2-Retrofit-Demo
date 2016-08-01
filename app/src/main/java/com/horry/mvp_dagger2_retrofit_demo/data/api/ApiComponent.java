@@ -1,7 +1,6 @@
 package com.horry.mvp_dagger2_retrofit_demo.data.api;
 
 import com.horry.mvp_dagger2_retrofit_demo.common.CookieManager;
-import com.horry.mvp_dagger2_retrofit_demo.ui.activity.presenter.BasePresenter;
 
 import javax.inject.Singleton;
 

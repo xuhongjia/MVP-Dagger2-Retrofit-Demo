@@ -1,6 +1,8 @@
 package com.softstao.softstaolibrary.library.mvp.presenter;
 
 import com.softstao.softstaolibrary.library.mvp.viewer.BaseViewer;
+
+import retrofit2.Retrofit;
 import rx.Observable;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
@@ -18,12 +20,14 @@ public class BasePresenter<V extends BaseViewer> implements MvpPresenter<V> {
      */
     protected V viewer;
 
+    protected Retrofit retrofit;
     /**
      * 构造方法
      * @param viewer
      */
-    public BasePresenter(V viewer){
+    public BasePresenter(V viewer,Retrofit retrofit){
         this.viewer=viewer;
+        this.retrofit =retrofit;
     }
 
     /**
