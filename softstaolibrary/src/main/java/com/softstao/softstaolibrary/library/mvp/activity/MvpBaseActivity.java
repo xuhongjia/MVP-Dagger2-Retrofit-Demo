@@ -5,9 +5,11 @@ import android.support.annotation.CallSuper;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,6 +21,7 @@ import com.softstao.softstaolibrary.library.mvp.animator.DefaultAnimator;
 import com.softstao.softstaolibrary.library.mvp.viewer.BaseViewer;
 import com.softstao.softstaolibrary.library.utils.LZUtils;
 import com.softstao.softstaolibrary.library.widget.CustomScrollerView;
+import com.softstao.softstaolibrary.library.widget.EmptyLayout;
 import com.softstao.softstaolibrary.library.widget.ErrorLayout;
 import com.softstao.softstaolibrary.library.widget.TitleBar;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -32,7 +35,7 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
  * MVP框架中V的基类
  * Created by xuhon on 2016/7/29.
  */
-public abstract class MvpBaseActivity extends AppCompatActivity implements BaseViewer,PtrHandler,CustomScrollerView.OnScrollChangedListener {
+public abstract class MvpBaseActivity extends AppCompatActivity implements BaseViewer,PtrHandler,CustomScrollerView.OnScrollChangedListener,View.OnClickListener {
     /**
      * 正在加载的View
      */
@@ -55,6 +58,11 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
      * 下拉刷新view
      */
     protected PtrFrameLayout ptrFrameLayout;
+
+    /**
+     * 数据为空的view
+     */
+    protected EmptyLayout emptyLayout;
 
     protected View loaderLayout;
     protected View loader;
@@ -139,6 +147,7 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
         loaderLayout = findViewById(R.id.loader_view);
         loader = findViewById(R.id.loader);
         loaderText = (TextView) findViewById(R.id.loader_text);
+        emptyLayout = (EmptyLayout) findViewById(R.id.empty_layout);
         if (loadingView == null) {
             throw new NullPointerException(
                     "Loading view is null! Have you specified a loading view in your layout xml file?"
@@ -157,17 +166,17 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
                             + " You have to give your error View the id R.id.contentView");
         }
 
-        errorView.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                onErrorViewClicked();
-            }
-        });
+        errorView.setOnClickListener(this);
+        emptyLayout.setOnClickListener(this);
     }
-
+    @Override
+    public void onClick(View v) {
+        onViewClicked();
+    }
     /**
-     * 错误View的点击事件
+     * 错误和空View的点击事件
      */
-    protected void onErrorViewClicked() {
+    protected void onViewClicked() {
         loadData(false);
     }
 
@@ -246,6 +255,18 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
         DefaultAnimator.showErrorView(loadingView, contentView, errorView);
     }
 
+    /**
+     * 显示空View时的动画
+     */
+    protected void showEmpty(){
+        DefaultAnimator.showEmptyView(loadingView,contentView,emptyLayout);
+    }
+    /**
+     * 显示错误View时的动画
+     */
+    protected void animateEmptyViewIn() {
+        DefaultAnimator.showEmptyView(loadingView, contentView,emptyLayout);
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -274,5 +295,16 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
 
     public void setTintManager(SystemBarTintManager tintManager) {
         this.tintManager = tintManager;
+    }
+    @Override
+    public boolean onTouchEvent(MotionEvent event) {
+        if(null != this.getCurrentFocus()){
+            /**
+             * 点击空白位置 隐藏软键盘
+             */
+            InputMethodManager mInputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            return mInputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
+        }
+        return super .onTouchEvent(event);
     }
 }

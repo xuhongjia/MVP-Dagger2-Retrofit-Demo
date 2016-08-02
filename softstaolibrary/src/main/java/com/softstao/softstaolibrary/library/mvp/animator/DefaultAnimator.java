@@ -55,7 +55,39 @@ public class DefaultAnimator {
 
         set.start();
     }
+    /**
+     * Shows the error view instead of the loading view
+     */
+    public static void showEmptyView(@NonNull final View loadingView, @NonNull final View contentView,
+                                     final View emptyView) {
 
+        contentView.setVisibility(View.GONE);
+
+        final Resources resources = loadingView.getResources();
+        // Not visible yet, so animate the view in
+        AnimatorSet set = new AnimatorSet();
+        ObjectAnimator in = ObjectAnimator.ofFloat(emptyView, View.ALPHA, 1f);
+        ObjectAnimator loadingOut = ObjectAnimator.ofFloat(loadingView,  View.ALPHA, 0f);
+
+        set.playTogether(in, loadingOut);
+        set.setDuration(resources.getInteger(R.integer.lce_error_view_show_animation_time));
+
+        set.addListener(new AnimatorListenerAdapter() {
+
+            @Override public void onAnimationStart(Animator animation) {
+                super.onAnimationStart(animation);
+                emptyView.setVisibility(View.VISIBLE);
+            }
+
+            @Override public void onAnimationEnd(Animator animation) {
+                super.onAnimationEnd(animation);
+                loadingView.setVisibility(View.GONE);
+                loadingView.setAlpha(1f); // For future showLoading calls
+            }
+        });
+
+        set.start();
+    }
     /**
      * Display the content instead of the loadingView
      */

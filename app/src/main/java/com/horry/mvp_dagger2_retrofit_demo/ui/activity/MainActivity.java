@@ -38,7 +38,7 @@ public class MainActivity extends BaseActivity implements MainViewer{
         initTitle("首页");
         presenter.showUserName();
         textView.setOnClickListener(v -> {
-            setTextView("xxx");
+            presenter.getCode();
         });
     }
 

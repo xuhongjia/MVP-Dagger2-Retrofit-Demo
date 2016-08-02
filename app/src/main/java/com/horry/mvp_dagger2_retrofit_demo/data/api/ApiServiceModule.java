@@ -24,7 +24,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 @Module
 public class ApiServiceModule {
     private static final int DEFAULT_TIMEOUT = 5;
-    private static final String ENDPOINT="http://www.baidu.com/";
+    private static final String ENDPOINT="http://yuncheng.softstao.com/";
 
 
     @Provides @Singleton

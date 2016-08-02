@@ -19,6 +19,7 @@
         android:layout_below="@id/error_img"
         android:layout_centerInParent="true"
         android:textSize="16sp"
-        android:text="请求出错"
+        android:gravity="center"
+        android:text="请求出错\n请点击刷新"
         />
 </RelativeLayout>

@@ -3,6 +3,7 @@
     package="com.horry.mvp_dagger2_retrofit_demo">
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:name=".AppApplication"
         android:allowBackup="true"

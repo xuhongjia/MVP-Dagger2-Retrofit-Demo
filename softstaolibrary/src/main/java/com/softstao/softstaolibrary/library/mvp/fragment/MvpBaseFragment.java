@@ -18,6 +18,7 @@ import com.softstao.softstaolibrary.library.mvp.activity.MvpBaseActivity;
 import com.softstao.softstaolibrary.library.mvp.animator.DefaultAnimator;
 import com.softstao.softstaolibrary.library.mvp.viewer.BaseViewer;
 import com.softstao.softstaolibrary.library.widget.CustomScrollerView;
+import com.softstao.softstaolibrary.library.widget.EmptyLayout;
 import com.softstao.softstaolibrary.library.widget.ErrorLayout;
 import com.softstao.softstaolibrary.library.widget.TitleBar;
 
@@ -27,7 +28,7 @@ import in.srain.cube.views.ptr.PtrUIHandler;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 
 
-public abstract class MvpBaseFragment extends Fragment implements BaseViewer,PtrHandler,CustomScrollerView.OnScrollChangedListener{
+public abstract class MvpBaseFragment extends Fragment implements BaseViewer,View.OnClickListener ,PtrHandler,CustomScrollerView.OnScrollChangedListener{
     /**
      * 正在加载的View
      */
@@ -50,6 +51,10 @@ public abstract class MvpBaseFragment extends Fragment implements BaseViewer,Ptr
      * 下拉刷新view
      */
     protected PtrFrameLayout ptrFrameLayout;
+    /**
+     * 数据为空的view
+     */
+    protected EmptyLayout emptyLayout;
 
     protected View loaderLayout;
     protected View loader;
@@ -150,6 +155,7 @@ public abstract class MvpBaseFragment extends Fragment implements BaseViewer,Ptr
         loaderLayout = view.findViewById(R.id.loader_view);
         loader = view.findViewById(R.id.loader);
         loaderText = (TextView) view.findViewById(R.id.loader_text);
+        emptyLayout = (EmptyLayout) view.findViewById(R.id.empty_layout);
         if (loadingView == null) {
             throw new NullPointerException(
                     "Loading view is null! Have you specified a loading view in your layout xml file?"
@@ -168,17 +174,17 @@ public abstract class MvpBaseFragment extends Fragment implements BaseViewer,Ptr
                             + " You have to give your error View the id R.id.contentView");
         }
 
-        errorView.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                onErrorViewClicked();
-            }
-        });
+        errorView.setOnClickListener(this);
+        emptyLayout.setOnClickListener(this);
     }
-
+    @Override
+    public void onClick(View v) {
+        onViewClicked();
+    }
     /**
      * 错误View的点击事件
      */
-    protected void onErrorViewClicked() {
+    protected void onViewClicked() {
         loadData(false);
     }
 

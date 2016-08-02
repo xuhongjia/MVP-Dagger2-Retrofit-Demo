@@ -12,21 +12,10 @@ import retrofit2.Retrofit;
 /**
  * Created by xuhon on 2016/8/1.
  */
-
-public abstract class BaseActivityModule<V extends BaseViewer,T extends BasePresenter<V>> {
+public abstract class BaseActivityModule<V extends BaseViewer> {
     protected V viewer;
-    protected T presenter;
-    protected Class<T> tClass;
-    protected Class<V> vClass;
     public BaseActivityModule(V viewer) {
         this.viewer = viewer;
-        try {
-            Constructor constructor =  tClass.getConstructor(vClass,Retrofit.class);
-            presenter = (T) constructor.newInstance(viewer,((BaseActivity)viewer).retrofit);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
     }
 
 }

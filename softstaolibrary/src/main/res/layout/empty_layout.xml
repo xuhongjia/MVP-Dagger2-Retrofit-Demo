@@ -17,8 +17,9 @@
         android:layout_height="wrap_content"
         android:paddingTop="10dp"
         android:textSize="16sp"
+        android:gravity="center"
         android:layout_below="@id/empty_img"
         android:layout_centerInParent="true"
-        android:text="暂无数据"
+        android:text="暂无数据\n请点击刷新"
         />
 </RelativeLayout>

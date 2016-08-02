@@ -62,6 +62,11 @@ public abstract class BaseActivity extends MvpBaseActivity {
         showLoading(pullToRefresh);
     }
 
+    protected void onRefresh(){
+        currentPage=0;
+        loadData(true);
+    }
+
     @Override
     public void onScrollChanged(int var1, int var2, int var3, int var4) {
         if(var4-var2>0) {
@@ -111,11 +116,15 @@ public abstract class BaseActivity extends MvpBaseActivity {
     }
 
     public void noMoreData(){
+        currentPage--;
         loaderText.setText("- end -");
         loader.setVisibility(View.GONE);
         showLoader(true);
     }
 
+    protected void isEmpty(){
+        showEmpty();
+    }
     @Override
     public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
         return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
@@ -123,8 +132,7 @@ public abstract class BaseActivity extends MvpBaseActivity {
 
     @Override
     public void onRefreshBegin(PtrFrameLayout frame) {
-        currentPage=0;
-        loadData(true);
+        onRefresh();
         frame.postDelayed(()->  {
             ptrFrameLayout.refreshComplete();
             ptrFrameLayout.requestLayout();

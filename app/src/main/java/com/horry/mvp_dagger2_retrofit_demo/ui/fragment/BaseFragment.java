@@ -12,6 +12,7 @@ import com.softstao.softstaolibrary.library.mvp.fragment.MvpBaseFragment;
 import com.softstao.softstaolibrary.library.utils.LZUtils;
 
 import butterknife.ButterKnife;
+import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 
 /**
@@ -83,6 +84,11 @@ public abstract class BaseFragment extends MvpBaseFragment {
 
     }
 
+    protected void onRefresh(){
+        currentPage=0;
+        loadData(true);
+    }
+
     @Override
     public void onScrollBottom() {
         if(canLoad){
@@ -105,6 +111,7 @@ public abstract class BaseFragment extends MvpBaseFragment {
     }
 
     public void noMoreData(){
+        currentPage--;
         loaderText.setText("- end -");
         loader.setVisibility(View.GONE);
         showLoader(true);
@@ -112,12 +119,16 @@ public abstract class BaseFragment extends MvpBaseFragment {
 
     @Override
     public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-        return false;
+        return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);
     }
 
     @Override
     public void onRefreshBegin(PtrFrameLayout frame) {
-        loadData(true);
+        onRefresh();
+        frame.postDelayed(()->  {
+            ptrFrameLayout.refreshComplete();
+            ptrFrameLayout.requestLayout();
+        }, 1800);
     }
 
     public int getImageHeight() {
