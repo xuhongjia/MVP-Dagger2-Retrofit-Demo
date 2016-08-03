@@ -33,4 +33,7 @@ public interface BaseViewer {
      */
     @UiThread
     void loadData(boolean pullToRefresh);
+
+    @UiThread
+    void noLogin();
 }

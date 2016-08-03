@@ -35,7 +35,8 @@ public class ApiServiceModule {
     }
 
 
-    @Provides @Singleton
+    @Provides
+    @Singleton
     Retrofit provideRetrofit(OkHttpClient client){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(ENDPOINT)
@@ -67,4 +68,9 @@ public class ApiServiceModule {
         return CookieManager.get();
     }
 
+    @Provides
+    @Singleton
+    ApiService provideApiService(Retrofit retrofit){
+        return retrofit.create(ApiService.class);
+    }
 }

@@ -19,12 +19,10 @@ import com.softstao.softstaolibrary.R;
 import com.softstao.softstaolibrary.library.global.AppManager;
 import com.softstao.softstaolibrary.library.mvp.animator.DefaultAnimator;
 import com.softstao.softstaolibrary.library.mvp.viewer.BaseViewer;
-import com.softstao.softstaolibrary.library.utils.LZUtils;
 import com.softstao.softstaolibrary.library.widget.CustomScrollerView;
 import com.softstao.softstaolibrary.library.widget.EmptyLayout;
 import com.softstao.softstaolibrary.library.widget.ErrorLayout;
 import com.softstao.softstaolibrary.library.widget.TitleBar;
-import com.wang.avi.AVLoadingIndicatorView;
 
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
@@ -64,6 +62,8 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
      */
     protected EmptyLayout emptyLayout;
 
+    protected boolean noScroller=false;
+
     protected View loaderLayout;
     protected View loader;
     protected TextView loaderText;
@@ -74,7 +74,12 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_base_view);
+        if(noScroller){
+            setContentView(R.layout.normal_base_view);
+        }
+        else{
+            setContentView(R.layout.base_view);
+        }
 //        getSupportActionBar().hide();
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         tintManager = new SystemBarTintManager(this);
@@ -86,6 +91,7 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
         addContentView(_setContentView());
         AppManager.getInstance().add(this);
     }
+
     /**
      * 设置头部显示刷新可用
      */
@@ -141,9 +147,11 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
     public void onContentChanged() {
         loadingView = findViewById(R.id.loading_view);
         contentView = (LinearLayout) findViewById(R.id.content_view);
+        if(!noScroller){
+            scrollerView = (CustomScrollerView) findViewById(R.id.scrollView);
+            ptrFrameLayout = (PtrFrameLayout) findViewById(R.id.ptr_frame);
+        }
         errorView = (ErrorLayout) findViewById(R.id.error_layout);
-        scrollerView = (CustomScrollerView) findViewById(R.id.scrollView);
-        ptrFrameLayout = (PtrFrameLayout) findViewById(R.id.ptr_frame);
         loaderLayout = findViewById(R.id.loader_view);
         loader = findViewById(R.id.loader);
         loaderText = (TextView) findViewById(R.id.loader_text);
@@ -306,5 +314,13 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
             return mInputMethodManager.hideSoftInputFromWindow(this.getCurrentFocus().getWindowToken(), 0);
         }
         return super .onTouchEvent(event);
+    }
+
+    public boolean isNoScroller() {
+        return noScroller;
+    }
+
+    public void setNoScroller(boolean noScroller) {
+        this.noScroller = noScroller;
     }
 }

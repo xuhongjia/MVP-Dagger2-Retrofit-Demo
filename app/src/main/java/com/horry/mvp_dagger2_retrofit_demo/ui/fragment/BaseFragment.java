@@ -46,6 +46,10 @@ public abstract class BaseFragment extends MvpBaseFragment {
 
     protected abstract  void setupFragmentComponent(AppComponent appComponent);
 
+    @Override
+    public void loadData(boolean pullToRefresh) {
+        showLoading(pullToRefresh);
+    }
 
     @Override
     public void setButterKnife(View view) {

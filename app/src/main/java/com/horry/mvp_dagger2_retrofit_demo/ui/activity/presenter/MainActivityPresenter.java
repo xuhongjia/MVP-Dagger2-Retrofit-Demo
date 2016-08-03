@@ -2,12 +2,8 @@ package com.horry.mvp_dagger2_retrofit_demo.ui.activity.presenter;
 
 import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiService;
 import com.horry.mvp_dagger2_retrofit_demo.ui.activity.MainActivity;
-import com.horry.mvp_dagger2_retrofit_demo.ui.activity.viewer.home.MainViewer;
-import com.softstao.softstaolibrary.library.mvp.presenter.BasePresenter;
-import com.softstao.softstaolibrary.library.mvp.viewer.BaseViewer;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.inject.Inject;
 
 import retrofit2.Retrofit;
 
@@ -21,10 +17,11 @@ public class MainActivityPresenter extends BasePresenter<MainActivity> {
      * 构造方法
      *
      * @param viewer
-     * @param retrofit
+     * @param apiService
      */
-    public MainActivityPresenter(MainActivity viewer, Retrofit retrofit) {
-        super(viewer, retrofit);
+    @Inject
+    public MainActivityPresenter(MainActivity viewer, ApiService apiService) {
+        super(viewer, apiService);
     }
 
     public void showUserName(){
@@ -32,9 +29,8 @@ public class MainActivityPresenter extends BasePresenter<MainActivity> {
     }
 
     public void getCode(){
-        ApiService apiService = retrofit.create(ApiService.class);
-        subscribe(apiService.getCode("13724194657"),response-> {
-            viewer.setTextView(response.toString());
+        subscribe(apiService.getCode("18127918232"), code-> {
+            viewer.setTextView(code.getCode()+"");
         },true);
     }
 

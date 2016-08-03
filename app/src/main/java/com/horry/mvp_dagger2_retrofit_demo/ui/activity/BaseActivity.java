@@ -22,9 +22,6 @@ import retrofit2.Retrofit;
  * Created by clevo on 2015/6/10.
  */
 public abstract class BaseActivity extends MvpBaseActivity {
-    @Inject
-    public Retrofit retrofit;
-
 
     private int yScroll=0;
     private int imageHeight ;
@@ -39,6 +36,7 @@ public abstract class BaseActivity extends MvpBaseActivity {
     private boolean isChange=false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        setNoScroller(true);
         super.onCreate(savedInstanceState);
         setupActivityComponent(AppApplication.get(this).getAppComponent());
         ButterKnife.bind(this);
@@ -46,8 +44,9 @@ public abstract class BaseActivity extends MvpBaseActivity {
         red = Color.red(getResources().getColor(R.color.colorPrimary));
         green = Color.green(getResources().getColor(R.color.colorPrimary));
         blue = Color.blue(getResources().getColor(R.color.colorPrimary));
-        scrollerView.setOnScrollChangedListener(this);
+//        scrollerView.setOnScrollChangedListener(this);
         imageHeight= LZUtils.dipToPix(this,140);
+        showLoader(false);
     }
 
     public abstract void initView();
@@ -125,6 +124,12 @@ public abstract class BaseActivity extends MvpBaseActivity {
     protected void isEmpty(){
         showEmpty();
     }
+
+    @Override
+    public void noLogin() {
+
+    }
+
     @Override
     public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
         return PtrDefaultHandler.checkContentCanBePulledDown(frame, content, header);

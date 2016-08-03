@@ -13,7 +13,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.softstao.softstaolibrary.R;
-import com.softstao.softstaolibrary.library.global.AppManager;
 import com.softstao.softstaolibrary.library.mvp.activity.MvpBaseActivity;
 import com.softstao.softstaolibrary.library.mvp.animator.DefaultAnimator;
 import com.softstao.softstaolibrary.library.mvp.viewer.BaseViewer;
@@ -74,9 +73,10 @@ public abstract class MvpBaseFragment extends Fragment implements BaseViewer,Vie
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_mvp_base, container, false);
+        View view = inflater.inflate(R.layout.base_view, container, false);
         onContentChanged(view);
         addContentView(_setContentView(),inflater);
+        container.requestLayout();
         setButterKnife(view);
         return view;
     }

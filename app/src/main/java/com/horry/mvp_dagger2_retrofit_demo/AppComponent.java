@@ -5,7 +5,10 @@ import android.app.Application;
 
 import com.horry.mvp_dagger2_retrofit_demo.common.CookieManager;
 import com.horry.mvp_dagger2_retrofit_demo.data.AppServiceModule;
+import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiService;
 import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiServiceModule;
+import com.horry.mvp_dagger2_retrofit_demo.global.SharePreferenceManager;
+import com.horry.mvp_dagger2_retrofit_demo.global.UserManager;
 import com.horry.mvp_dagger2_retrofit_demo.model.User;
 
 import javax.inject.Singleton;
@@ -20,9 +23,11 @@ import retrofit2.Retrofit;
 @Component(modules = {AppModule.class, AppServiceModule.class, ApiServiceModule.class})
 public interface AppComponent {
 
-    Application getApplication();
-    CookieManager getCookieManager();
-
+    AppApplication getApplication();
+//    CookieManager getCookieManager();
+    ApiService getApiService();
     Retrofit getRetrofit();
     User getUser();
+    SharePreferenceManager sharePreferenceManager();
+    UserManager userManager();
 }
