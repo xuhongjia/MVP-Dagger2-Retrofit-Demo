@@ -4,12 +4,17 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
 
 import com.horry.mvp_dagger2_retrofit_demo.AppApplication;
 import com.horry.mvp_dagger2_retrofit_demo.AppComponent;
 import com.horry.mvp_dagger2_retrofit_demo.R;
+import com.horry.mvp_dagger2_retrofit_demo.global.UserManager;
 import com.softstao.softstaolibrary.library.mvp.fragment.MvpBaseFragment;
 import com.softstao.softstaolibrary.library.utils.LZUtils;
+
+import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
@@ -21,25 +26,29 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 public abstract class BaseFragment extends MvpBaseFragment {
     private int yScroll=0;
     private int imageHeight ;
-    protected int pageSize = 8;
-    protected int offset = 0;
+    public int pageSize = 8;
+    public int offset = 0;
     protected int currentPage = 0;
     private int red;
     private int green;
     private int blue;
     private boolean canLoad=true;
-
     private boolean isChange=false;
+
+    @Inject
+    UserManager userManager;
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        ButterKnife.bind(this, view);
+        setupFragmentComponent(AppApplication.get(getActivity()).getAppComponent());
         scrollerView.setOnScrollChangedListener(this);
         imageHeight= LZUtils.dipToPix(getActivity(),140);
         initView();
+        loadData(false);
         red = Color.red(getResources().getColor(R.color.colorPrimary));
         green = Color.green(getResources().getColor(R.color.colorPrimary));
         blue = Color.blue(getResources().getColor(R.color.colorPrimary));
-        setupFragmentComponent(AppApplication.get(getActivity()).getAppComponent());
     }
 
     public abstract void initView();
@@ -48,7 +57,9 @@ public abstract class BaseFragment extends MvpBaseFragment {
 
     @Override
     public void loadData(boolean pullToRefresh) {
-        showLoading(pullToRefresh);
+        if(!pullToRefresh){
+            showLoading(pullToRefresh);
+        }
     }
 
     @Override
@@ -65,7 +76,7 @@ public abstract class BaseFragment extends MvpBaseFragment {
     public void onScrollChanged(int var1, int var2, int var3, int var4) {
         if(var4-var2>0) {
             canLoad=true;
-//            showLoader(false);
+            showLoader(false);
         }
         yScroll=var2;
         if(titleBar!=null&&isChange){
@@ -77,8 +88,10 @@ public abstract class BaseFragment extends MvpBaseFragment {
                 // 只是layout背景透明(仿知乎滑动效果)
                 //设置滑动渐变颜色
                 titleBar.setBackgroundColor(Color.argb((int) alpha, red, green, blue));
+                tintManager.setStatusBarTintColor(Color.argb((int) alpha, red, green, blue));
             } else {
                 titleBar.setBackgroundColor(Color.argb( 255, red, green, blue));
+                tintManager.setStatusBarTintColor(Color.argb(255, red, green, blue));
             }
         }
     }
@@ -97,17 +110,19 @@ public abstract class BaseFragment extends MvpBaseFragment {
     public void onScrollBottom() {
         if(canLoad){
             currentPage++;
+            loader.setVisibility(View.VISIBLE);
             loaderText.setText("正在加载...");
             canLoad=false;
             showLoader(true);
-            loadData(true);
+            loader.postDelayed(()->{
+                loadData(true);
+            },1000);
         }
     }
 
     private void showLoader(boolean isShow){
         if(isShow){
             loaderLayout.setVisibility(View.VISIBLE);
-            loader.setVisibility(View.VISIBLE);
         }
         else{
             loaderLayout.setVisibility(View.GONE);
@@ -117,8 +132,17 @@ public abstract class BaseFragment extends MvpBaseFragment {
     public void noMoreData(){
         currentPage--;
         loaderText.setText("- end -");
-        loader.setVisibility(View.GONE);
+        loader.setVisibility(View.INVISIBLE);
         showLoader(true);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    public void isEmpty(){
+        showEmpty(false);
     }
 
     @Override
@@ -128,11 +152,21 @@ public abstract class BaseFragment extends MvpBaseFragment {
 
     @Override
     public void onRefreshBegin(PtrFrameLayout frame) {
-        onRefresh();
         frame.postDelayed(()->  {
+            onRefresh();
+        }, 1000);
+    }
+
+    @Override
+    public void closePtrFrameLayout() {
+        ptrFrameLayout.postDelayed(()->{
             ptrFrameLayout.refreshComplete();
-            ptrFrameLayout.requestLayout();
-        }, 1800);
+        },1000);
+    }
+
+    @Override
+    public void noLogin() {
+
     }
 
     public int getImageHeight() {
@@ -148,6 +182,10 @@ public abstract class BaseFragment extends MvpBaseFragment {
     }
 
     public void setChange(boolean change) {
+        if(change){
+            titleBar.setBackgroundColor(Color.TRANSPARENT);
+            titleBar.getDivider().setVisibility(View.GONE);
+        }
         isChange = change;
     }
 }

@@ -3,6 +3,7 @@ package com.horry.mvp_dagger2_retrofit_demo.data.api;
 import com.horry.mvp_dagger2_retrofit_demo.model.Code;
 import com.horry.mvp_dagger2_retrofit_demo.model.User;
 import com.horry.mvp_dagger2_retrofit_demo.model.Response;
+import com.horry.mvp_dagger2_retrofit_demo.model.home.Home;
 
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,8 @@ import rx.Observable;
  * Created by horry on 2016/8/3.
  */
 public interface ApiService {
+    int pageSize = 8;
+    int offset = 0;
     /**
      * 自定义调用方法
      * @param moblie 自定义的参数
@@ -31,6 +34,10 @@ public interface ApiService {
     @POST("api.php?app=passport&act=check_mobile")
     Observable<Response<Code>> getCode(@Field("mobile") String moblie);
 
+    @GET("api.php?app=home&act=index&pagesize="+pageSize)
+    Observable<Response<Home>> getHome(@Query("offset") String offset);
+
+    /////////////////////////////////////////////////华丽的分割线/////////////////////////////////////////////////////////
     /**
      * 公用的POST方法
      * @param app 对应接口的app

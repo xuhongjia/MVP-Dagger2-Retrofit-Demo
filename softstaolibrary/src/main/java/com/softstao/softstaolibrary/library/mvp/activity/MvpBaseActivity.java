@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,6 +28,7 @@ import com.softstao.softstaolibrary.library.widget.TitleBar;
 import in.srain.cube.views.ptr.PtrFrameLayout;
 import in.srain.cube.views.ptr.PtrHandler;
 import in.srain.cube.views.ptr.PtrUIHandler;
+import in.srain.cube.views.ptr.header.MaterialHeader;
 import in.srain.cube.views.ptr.header.StoreHouseHeader;
 
 /**
@@ -34,6 +36,10 @@ import in.srain.cube.views.ptr.header.StoreHouseHeader;
  * Created by xuhon on 2016/7/29.
  */
 public abstract class MvpBaseActivity extends AppCompatActivity implements BaseViewer,PtrHandler,CustomScrollerView.OnScrollChangedListener,View.OnClickListener {
+    /**
+     * 主要内容
+     */
+    protected View content;
     /**
      * 正在加载的View
      */
@@ -61,15 +67,28 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
      * 数据为空的view
      */
     protected EmptyLayout emptyLayout;
-
+    /**
+     * 是否需要scroller
+     */
     protected boolean noScroller=false;
-
+    /**
+     * 底部加载更多View
+     */
     protected View loaderLayout;
     protected View loader;
     protected TextView loaderText;
-
+    /**
+     * 导航条
+     */
     protected TitleBar titleBar;
+    /**
+     * 可修改的系统状态栏
+     */
     protected SystemBarTintManager tintManager ;
+    /**
+     * 判断titleBar是否有rule
+     */
+    private boolean hasRule=false;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -80,7 +99,9 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
         else{
             setContentView(R.layout.base_view);
         }
-//        getSupportActionBar().hide();
+        if(getSupportActionBar()!=null){
+            getSupportActionBar().hide();
+        }
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
@@ -98,14 +119,34 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
     protected void setPtrFrameLayoutEnable(){
         ptrFrameLayout.setPtrHandler(this);
         ptrFrameLayout.disableWhenHorizontalMove(true);
-        StoreHouseHeader header = new StoreHouseHeader(this);
-        header.setPadding(0, 55, 0, 55);
-        header.initWithString(getString(R.string.app_name));
-        header.setTextColor(getResources().getColor(R.color.colorPrimary));
-        header.setScale(1.7f);
-        header.onUIReset(ptrFrameLayout);
-        ptrFrameLayout.setHeaderView(header);
-        ptrFrameLayout.addPtrUIHandler(header);
+        if(hasRule){
+            StoreHouseHeader header = new StoreHouseHeader(this);
+            header.setPadding(0, 55, 0, 55);
+            header.initWithString(getString(R.string.app_name));
+            header.setTextColor(getResources().getColor(R.color.colorPrimary));
+            header.setScale(1.7f);
+            header.onUIReset(ptrFrameLayout);
+            ptrFrameLayout.setHeaderView(header);
+            ptrFrameLayout.addPtrUIHandler(header);
+        }
+        else{
+            MaterialHeader header = new MaterialHeader(this);
+            header.setPadding(0, 120, 0, 55);
+            int[] colors = getResources().getIntArray(R.array.colors);
+            header.setColorSchemeColors(colors);
+            header.onUIReset(ptrFrameLayout);
+            ptrFrameLayout.setHeaderView(header);
+            ptrFrameLayout.addPtrUIHandler(header);
+        }
+    }
+    /**
+     * 必须在setPtrFrameLayoutEnable之前调用因为需要更改下拉刷新View
+     * @param rule 要修改的rule
+     * @param id 对应的View的id
+     */
+    public void changeContentRule(int rule,int id){
+        hasRule=true;
+        ((RelativeLayout.LayoutParams)content.getLayoutParams()).addRule(rule,id);
     }
     /**
      * 设置ptrFrameLayout的刷新头
@@ -138,6 +179,10 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
         lp.setMargins(0,tintManager.getConfig().getStatusBarHeight(),0,0);
     }
 
+    public void hideTitle(){
+        findViewById(R.id.title).setVisibility(View.GONE);
+    }
+
     public abstract int _setContentView();
     /**
      * 加载View
@@ -145,6 +190,7 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
     @CallSuper
     @Override
     public void onContentChanged() {
+        content = findViewById(R.id.content);
         loadingView = findViewById(R.id.loading_view);
         contentView = (LinearLayout) findViewById(R.id.content_view);
         if(!noScroller){
@@ -177,6 +223,10 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
         errorView.setOnClickListener(this);
         emptyLayout.setOnClickListener(this);
     }
+    /**
+     * 出错的View的点击
+     * @param v
+     */
     @Override
     public void onClick(View v) {
         onViewClicked();
@@ -187,7 +237,6 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
     protected void onViewClicked() {
         loadData(false);
     }
-
 
     /**
      * 显示加载LoadingView
@@ -207,13 +256,14 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
         DefaultAnimator.showLoading(loadingView, contentView, errorView);
     }
 
-
     /**
      * 显示内容View
      */
     @Override
     public void showContent() {
-        animateContentViewIn();
+        if(contentView.getVisibility()!=View.VISIBLE){
+            animateContentViewIn();
+        }
     }
 
     /**
@@ -266,8 +316,11 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
     /**
      * 显示空View时的动画
      */
-    protected void showEmpty(){
-        DefaultAnimator.showEmptyView(loadingView,contentView,emptyLayout);
+    @Override
+    public void showEmpty(boolean pullToRefresh) {
+        if(!pullToRefresh){
+            DefaultAnimator.showEmptyView(loadingView,contentView,emptyLayout);
+        }
     }
     /**
      * 显示错误View时的动画
@@ -280,7 +333,10 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
         super.onDestroy();
         AppManager.getInstance().remove(this);
     }
-
+    /**
+     * 获取屏幕宽度
+     * @return 屏幕宽度
+     */
     public int getScreenWidth() {
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -288,7 +344,10 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
 
         return width;
     }
-
+    /**
+     * 获取屏幕高度
+     * @return 屏幕高度
+     */
     public int getScreenHeight(){
         DisplayMetrics displaymetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
@@ -304,6 +363,12 @@ public abstract class MvpBaseActivity extends AppCompatActivity implements BaseV
     public void setTintManager(SystemBarTintManager tintManager) {
         this.tintManager = tintManager;
     }
+
+    /**
+     * 点击空白地方隐藏软键盘
+     * @param event 点击事件
+     * @return
+     */
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         if(null != this.getCurrentFocus()){

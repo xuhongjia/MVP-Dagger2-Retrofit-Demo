@@ -3,11 +3,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <include
-        android:id="@+id/title"
-        layout="@layout/layout_title"/>
+
     <RelativeLayout
-        android:layout_below="@id/title"
+        android:id="@+id/content"
+        android:layout_below="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
         <in.srain.cube.views.ptr.PtrFrameLayout
@@ -102,4 +101,7 @@
                 android:layout_height="wrap_content" />
         </RelativeLayout>
     </RelativeLayout>
+    <include
+        android:id="@+id/title"
+        layout="@layout/layout_title"/>
 </RelativeLayout>

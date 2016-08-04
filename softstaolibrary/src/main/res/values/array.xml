@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="colors">
+        <item>@color/swiperefresh_color1</item>
+        <item>@color/swiperefresh_color2</item>
+        <item>@color/swiperefresh_color3</item>
+        <item>@color/swiperefresh_color4</item>
+    </integer-array>
+</resources>

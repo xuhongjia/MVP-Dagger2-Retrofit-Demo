@@ -9,5 +9,22 @@
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
     </style>
-
+    <style name="radio_button_main">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:button">@null</item>
+        <item name="android:textColor">@drawable/tab_item_selector</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@null</item>
+        <item name="android:paddingTop">5dp</item>
+    </style>
+    <style name="radio_button_dot">
+        <item name="android:layout_width">10dp</item>
+        <item name="android:layout_height">10dp</item>
+        <item name="android:layout_marginLeft">15dp</item>
+        <item name="android:background">@drawable/red_radius</item>
+        <item name="android:visibility">gone</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_gravity">center|top</item>
+    </style>
 </resources>

@@ -1,6 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#3F51B5</color>
-    <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorPrimary">#471c0c</color>
+    <color name="colorPrimaryDark">#471c0c</color>
+    <color name="colorAccent">#471c0c</color>
+
+    <color name="font_blue">#00b6f8</color>
+    <color name="font_brown">#471c0c</color>
+    <color name="line">#f3f3f3</color>
+    <color name="font_gray">#c1bbb9</color>
+    <color name="font_gray1">#575757</color>
+    <color name="font_gray2">#a8a8a8</color>
+    <color name="font_gray3">#979797</color>
+    <color name="gray2">#efefef</color>
+    <color name="line_brown">#9e8d87</color>
+    <color name="btn_bg">#e24e17</color>
+    <color name="white">#fff</color>
+    <color name="font_pink">#f95858</color>
+    <color name="pink">#fa708d</color>
+    <color name="font_green">#63b151</color>
+    <color name="theme_color">#471c0c</color>
+    <color name="line_brown1">#80706a</color>
+    <color name="black">#000</color>
+    <color name="button_line">#d3d3d3</color>
+    <color name="btn_orange">#e24e17</color>
+    <color name="price_color">#d3100f</color>
+    <color name="font_color">#603a2c</color>
+    <color name="tranm">#00000000</color>
+    <color name="font_select_color">#e24e17</color>
+    <color name="font_black">#575757</color>
+    <color name="cancle_btn">#8a8a8a</color>
+    <color name="login_button">#33ffffff</color>
+    <color name="hint_color">#d3d3d3</color>
+    <color name="button_blue">#109cdb</color>
 </resources>

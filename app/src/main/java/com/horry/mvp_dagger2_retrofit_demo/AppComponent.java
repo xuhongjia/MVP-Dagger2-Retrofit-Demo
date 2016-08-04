@@ -10,6 +10,8 @@ import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiServiceModule;
 import com.horry.mvp_dagger2_retrofit_demo.global.SharePreferenceManager;
 import com.horry.mvp_dagger2_retrofit_demo.global.UserManager;
 import com.horry.mvp_dagger2_retrofit_demo.model.User;
+import com.horry.mvp_dagger2_retrofit_demo.ui.activity.BaseActivity;
+import com.horry.mvp_dagger2_retrofit_demo.ui.activity.MainActivity;
 
 import javax.inject.Singleton;
 
@@ -22,7 +24,7 @@ import retrofit2.Retrofit;
 @Singleton
 @Component(modules = {AppModule.class, AppServiceModule.class, ApiServiceModule.class})
 public interface AppComponent {
-
+    void inject(BaseActivity mainActivity);
     AppApplication getApplication();
 //    CookieManager getCookieManager();
     ApiService getApiService();

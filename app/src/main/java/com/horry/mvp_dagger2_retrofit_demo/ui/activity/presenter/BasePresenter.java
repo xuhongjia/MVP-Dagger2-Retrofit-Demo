@@ -27,6 +27,7 @@ public class BasePresenter<V extends BaseViewer> implements MvpPresenter<V> {
     protected V viewer;
 
     protected ApiService apiService;
+
     /**
      * 构造方法
      * @param viewer
@@ -65,21 +66,26 @@ public class BasePresenter<V extends BaseViewer> implements MvpPresenter<V> {
             viewer.showLoading(pullToRefresh);
         }
         unsubscribe();
-        subscription = observable.subscribeOn(Schedulers.io())
+        subscription = observable
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .filter(mResponse ->{
                     int error = mResponse.getError();
-                    int messageType = mResponse.getMsg_type();
-                    if(messageType == -100){
-                        error=-100;
-                    }
-                    switch (error){
-                        case 1:
-                            onError(new Throwable(mResponse.getMsg()),pullToRefresh);
-                            return false;
-                        case -100:
-                            viewer.noLogin();
-                            return false;
+                    if(error!=0){
+                        int messageType = mResponse.getMsg_type();
+                        if(messageType == -100){
+                            error=-100;
+                        }
+
+                        switch (error){
+                            case 1:
+                                onError(new Throwable(mResponse.getMsg()),pullToRefresh);
+                                return false;
+                            case -100:
+                                viewer.noLogin();
+                                return false;
+                        }
                     }
                     return true;
                 })
@@ -96,6 +102,7 @@ public class BasePresenter<V extends BaseViewer> implements MvpPresenter<V> {
     protected void onCompleted() {
         if (viewer!=null) {
             viewer.showContent();
+            viewer.closePtrFrameLayout();
         }
         unsubscribe();
     }
@@ -108,8 +115,16 @@ public class BasePresenter<V extends BaseViewer> implements MvpPresenter<V> {
     protected void onError(Throwable e, boolean pullToRefresh) {
         if (viewer!=null) {
             viewer.showError(e, pullToRefresh);
+            viewer.closePtrFrameLayout();
         }
         unsubscribe();
     }
 
+    private class ResponseFunc<T> implements Func1<Response<T>, T> {
+
+        @Override
+        public T call(Response<T> tResponse) {
+            return null;
+        }
+    }
 }

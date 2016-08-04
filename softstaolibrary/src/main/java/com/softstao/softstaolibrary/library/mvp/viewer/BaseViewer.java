@@ -34,6 +34,21 @@ public interface BaseViewer {
     @UiThread
     void loadData(boolean pullToRefresh);
 
+    /**
+     * 没有登陆调用
+     */
     @UiThread
     void noLogin();
+
+    /**
+     * 显示空View
+     * @param pullToRefresh
+     */
+    @UiThread
+    void showEmpty(boolean pullToRefresh);
+
+    /**
+     * 关闭头部刷新
+     */
+    void closePtrFrameLayout();
 }

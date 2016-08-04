@@ -1,38 +1,43 @@
 package com.horry.mvp_dagger2_retrofit_demo.ui.activity;
 
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.view.ViewPager;
-import android.widget.TextView;
+import android.view.View;
+import android.widget.RadioButton;
 
 import com.horry.mvp_dagger2_retrofit_demo.AppComponent;
 import com.horry.mvp_dagger2_retrofit_demo.R;
-import com.horry.mvp_dagger2_retrofit_demo.global.UserManager;
-import com.horry.mvp_dagger2_retrofit_demo.ui.activity.component
-        .DaggerMainActivityComponent;
-import com.horry.mvp_dagger2_retrofit_demo.ui.activity.module.MainActivityModule;
-import com.horry.mvp_dagger2_retrofit_demo.ui.activity.presenter.MainActivityPresenter;
 import com.horry.mvp_dagger2_retrofit_demo.ui.activity.viewer.home.MainViewer;
+import com.horry.mvp_dagger2_retrofit_demo.ui.fragment.BaseFragment;
 import com.horry.mvp_dagger2_retrofit_demo.ui.fragment.home.HomeFragment;
-import com.softstao.softstaolibrary.library.widget.CustomViewPager;
+import com.softstao.softstaolibrary.library.widget.NonSwipeableViewPager;
 
-import javax.inject.Inject;
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
 
-public class MainActivity extends BaseActivity implements MainViewer{
+public class MainActivity extends BaseActivity implements MainViewer {
 
-    @BindView(R.id.tv)
-    TextView textView;
     @BindView(R.id.view_pager)
-    ViewPager viewPager;
-    @Inject
-    UserManager userManager;
+    NonSwipeableViewPager viewPager;
+    @BindView(R.id.home_radio)
+    RadioButton homeRadio;
+    @BindView(R.id.product_radio)
+    RadioButton productRadio;
+    @BindView(R.id.found_radio)
+    RadioButton foundRadio;
+    @BindView(R.id.me_radio)
+    RadioButton meRadio;
+    private RadioButton[] radioButtons = new RadioButton[4];
+    private HomeFragment homeFragment;
+    private List<BaseFragment> fragmentList = new ArrayList<>();
 
-    @Inject
-    MainActivityPresenter presenter;
+    int currentIndex = 0;
+    int selectedIndex;
 
     @Override
     public int _setContentView() {
@@ -41,41 +46,75 @@ public class MainActivity extends BaseActivity implements MainViewer{
 
     @Override
     public void initView() {
-        initTitle("首页");
-        presenter.showUserName();
-        textView.setOnClickListener(v -> {
-            presenter.getCode();
-        });
+        hideTitle();
+        radioButtons[0] = homeRadio;
+        radioButtons[1] = productRadio;
+        radioButtons[2] = foundRadio;
+        radioButtons[3] = meRadio;
+        initListener();
+        homeFragment = new HomeFragment();
+        fragmentList.add(homeFragment);
         viewPager.setAdapter(new FragmentPagerAdapter(getSupportFragmentManager()) {
             @Override
             public Fragment getItem(int position) {
-                return new HomeFragment();
+                return fragmentList.get(position);
             }
 
             @Override
             public int getCount() {
-                return 1;
+                return fragmentList.size();
             }
         });
-        viewPager.getLayoutParams().height=getScreenHeight();
+//        viewPager.getLayoutParams().height = getScreenHeight();
         viewPager.setCurrentItem(0);
+        radioButtons[currentIndex].setSelected(true);
+    }
+
+
+    private void initListener(){
+        MyListener myButtonListener = new MyListener();
+        for (int i = 0; i < radioButtons.length; i++) {
+            radioButtons[i].setOnClickListener(myButtonListener);
+        }
+    }
+
+    class MyListener implements View.OnClickListener {
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.home_radio:
+                    selectedIndex = 0;
+                    break;
+                case R.id.product_radio:
+                    selectedIndex = 1;
+                    break;
+                case R.id.found_radio:
+                    selectedIndex = 2;
+                    break;
+                case R.id.me_radio:
+                    selectedIndex = 3;
+                    break;
+            }
+            if (selectedIndex != currentIndex) {
+                viewPager.setCurrentItem(selectedIndex);
+                radioButtons[currentIndex].setSelected(false);
+                radioButtons[selectedIndex].setSelected(true);
+                currentIndex = selectedIndex;
+            }
+        }
     }
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        DaggerMainActivityComponent.builder()
-                .appComponent(appComponent)
-                .mainActivityModule(new MainActivityModule(this))
-                .build()
-                .inject(this);
+        appComponent.inject(this);
     }
 
     public void setTextView(String username) {
-        textView.setText(username);
     }
 
     @Override
     public void loadData(boolean pullToRefresh) {
         super.loadData(pullToRefresh);
     }
+
 }

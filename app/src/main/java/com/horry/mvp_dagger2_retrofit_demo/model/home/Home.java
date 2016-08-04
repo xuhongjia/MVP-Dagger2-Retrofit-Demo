@@ -11,15 +11,15 @@ import java.util.List;
  */
 public class Home implements Serializable {
 
-    private List<BasePic> flashes;
+    private List<Flashes> flashes;
     private List<Product> category;
     private List<Goods> goods;
 
-    public List<BasePic> getFlashes() {
+    public List<Flashes> getFlashes() {
         return flashes;
     }
 
-    public void setFlashes(List<BasePic> flashes) {
+    public void setFlashes(List<Flashes> flashes) {
         this.flashes = flashes;
     }
 

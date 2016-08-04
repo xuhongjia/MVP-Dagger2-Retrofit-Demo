@@ -7,6 +7,7 @@ import android.view.View;
 import com.horry.mvp_dagger2_retrofit_demo.AppApplication;
 import com.horry.mvp_dagger2_retrofit_demo.AppComponent;
 import com.horry.mvp_dagger2_retrofit_demo.R;
+import com.horry.mvp_dagger2_retrofit_demo.global.UserManager;
 import com.softstao.softstaolibrary.library.mvp.activity.MvpBaseActivity;
 import com.softstao.softstaolibrary.library.utils.LZUtils;
 
@@ -24,16 +25,35 @@ import retrofit2.Retrofit;
 public abstract class BaseActivity extends MvpBaseActivity {
 
     private int yScroll=0;
+    /**
+     * 需要变化的高度
+     */
     private int imageHeight ;
-    protected int pageSize = 8;
-    protected int offset = 0;
+    /**
+     * 当前页面
+     */
     protected int currentPage = 0;
+    /**
+     * 颜色的红绿蓝
+     */
     private int red;
     private int green;
     private int blue;
+    /**
+     * 是否可以上拉刷新
+     */
     private boolean canLoad=true;
 
+    /**
+     * 是否变化导航条的颜色
+     */
     private boolean isChange=false;
+    /**
+     * 用户信息
+     */
+    @Inject
+    UserManager userManager;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setNoScroller(true);
@@ -46,26 +66,51 @@ public abstract class BaseActivity extends MvpBaseActivity {
         blue = Color.blue(getResources().getColor(R.color.colorPrimary));
 //        scrollerView.setOnScrollChangedListener(this);
         imageHeight= LZUtils.dipToPix(this,140);
-        showLoader(false);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    /**
+     * 初始化view
+     */
     public abstract void initView();
 
-    protected abstract  void setupActivityComponent(AppComponent appComponent);
+    /**
+     * dagger2的inject
+     * @param appComponent
+     */
+    protected abstract void setupActivityComponent(AppComponent appComponent);
+
     @Override
     protected String getErrorMessage(Throwable e, boolean pullToRefresh) {
         return e.getMessage();
     }
+
     @Override
     public void loadData(boolean pullToRefresh) {
-        showLoading(pullToRefresh);
+        if(!pullToRefresh){
+            showLoading(pullToRefresh);
+        }
     }
 
+    /**
+     * 数据刷新
+     */
     protected void onRefresh(){
         currentPage=0;
         loadData(true);
     }
 
+    /**
+     * 滑动事件
+     * @param var1 new_x
+     * @param var2 new_y
+     * @param var3 old_x
+     * @param var4 old_y
+     */
     @Override
     public void onScrollChanged(int var1, int var2, int var3, int var4) {
         if(var4-var2>0) {
@@ -93,38 +138,56 @@ public abstract class BaseActivity extends MvpBaseActivity {
 
     }
 
+    /**
+     * 滑动到底部
+     */
     @Override
     public void onScrollBottom() {
         if(canLoad){
             currentPage++;
+            loader.setVisibility(View.VISIBLE);
             loaderText.setText("正在加载...");
             canLoad=false;
             showLoader(true);
-            loadData(true);
+            loader.postDelayed(()->{
+                loadData(true);
+            },1000);
         }
     }
 
+    /**
+     * 显示加载更多view
+     * @param isShow 是否显示
+     */
     private void showLoader(boolean isShow){
         if(isShow){
             loaderLayout.setVisibility(View.VISIBLE);
-            loader.setVisibility(View.VISIBLE);
         }
         else{
             loaderLayout.setVisibility(View.GONE);
         }
     }
 
+    /**
+     * 没有更多显示没有数据
+     */
     public void noMoreData(){
         currentPage--;
         loaderText.setText("- end -");
-        loader.setVisibility(View.GONE);
+        loader.setVisibility(View.INVISIBLE);
         showLoader(true);
     }
 
-    protected void isEmpty(){
-        showEmpty();
+    /**
+     * 显示数据空view
+     */
+    public void isEmpty(){
+        showEmpty(false);
     }
 
+    /**
+     * 没有登陆操作
+     */
     @Override
     public void noLogin() {
 
@@ -137,11 +200,17 @@ public abstract class BaseActivity extends MvpBaseActivity {
 
     @Override
     public void onRefreshBegin(PtrFrameLayout frame) {
-        onRefresh();
         frame.postDelayed(()->  {
-            ptrFrameLayout.refreshComplete();
-            ptrFrameLayout.requestLayout();
+            onRefresh();
         }, 1800);
+    }
+
+    /**
+     * 关闭头部刷新
+     */
+    @Override
+    public void closePtrFrameLayout() {
+        ptrFrameLayout.refreshComplete();
     }
 
     public int getImageHeight() {
