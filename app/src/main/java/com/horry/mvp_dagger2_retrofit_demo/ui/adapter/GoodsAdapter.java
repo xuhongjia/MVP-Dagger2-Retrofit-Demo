@@ -31,7 +31,7 @@ public class GoodsAdapter extends RecycleViewBaseAdapter<Goods> {
         tv.setText("￥"+ LZUtils.priceFormat(Double.valueOf(goods.getMarket_price()!=null?goods.getMarket_price():"0")));
         holder.setText(R.id.goods_name,goods.getName()!=null?goods.getName():"")
                 .setText(R.id.price, "￥"+ LZUtils.priceFormat(Double.valueOf(goods.getPrice()!=null?goods.getPrice():"0")));
-        ImageLoader.getInstance().displayImage(goods.getDefault_pic(),(ImageView)holder.getView(R.id.img));
+//        ImageLoader.getInstance().displayImage(goods.getDefault_pic(),(ImageView)holder.getView(R.id.img));
 //        ((ImageView)holder.getView(R.id.img)).setImageDrawable(holder.itemView.getResources().getDrawable(Integer.parseInt(goods.getDefault_pic())));
     }
 }

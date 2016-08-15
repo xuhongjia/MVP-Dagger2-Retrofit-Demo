@@ -16,7 +16,6 @@ import javax.inject.Inject;
 import butterknife.ButterKnife;
 import in.srain.cube.views.ptr.PtrDefaultHandler;
 import in.srain.cube.views.ptr.PtrFrameLayout;
-import retrofit2.Retrofit;
 
 
 /**

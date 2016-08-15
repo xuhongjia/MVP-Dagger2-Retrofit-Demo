@@ -2,21 +2,18 @@ package com.horry.mvp_dagger2_retrofit_demo.ui.fragment.home;
 
 
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
-import com.horry.mvp_dagger2_retrofit_demo.AppApplication;
 import com.horry.mvp_dagger2_retrofit_demo.AppComponent;
 import com.horry.mvp_dagger2_retrofit_demo.R;
 import com.horry.mvp_dagger2_retrofit_demo.model.User;
 import com.horry.mvp_dagger2_retrofit_demo.model.goods.Goods;
-import com.horry.mvp_dagger2_retrofit_demo.model.home.Flashes;
 import com.horry.mvp_dagger2_retrofit_demo.model.home.Home;
 import com.horry.mvp_dagger2_retrofit_demo.model.home.Product;
 import com.horry.mvp_dagger2_retrofit_demo.ui.activity.viewer.home.HomeViewer;
@@ -37,7 +34,6 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -100,7 +96,7 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
         public void displayImage(String imageURL, ImageView imageView) {
             ImageLoader.getInstance().displayImage(imageURL, imageView);
 //            imageView.setImageDrawable(getResources().getDrawable(Integer.parseInt(imageURL)));
-            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
 
         @Override
@@ -173,8 +169,9 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
             pics.addAll(home.getCategory());
             adapter.notifyDataSetChanged();
         }
+        int size = goodses.size();
         goodses.addAll(home.getGoods());
-        goodsAdapter.notifyDataSetChanged();
+        goodsAdapter.notifyItemInserted(size);
     }
 
     @Override

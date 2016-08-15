@@ -1,5 +1,9 @@
 package com.horry.mvp_dagger2_retrofit_demo.ui.activity.presenter;
 
+import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+
 import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiService;
 import com.horry.mvp_dagger2_retrofit_demo.model.Response;
 import com.softstao.softstaolibrary.library.mvp.presenter.MvpPresenter;
@@ -41,8 +45,26 @@ public class BasePresenter<V extends BaseViewer> implements MvpPresenter<V> {
     /**
      * 订阅对象
      */
+//    private Subscription subscription;
     private Subscription subscription;
 
+    protected Handler handler = new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            if(msg.what==100){
+                String errorMsg = (String) msg.obj;
+                try {
+                    throw new Throwable(errorMsg);
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+            else if(msg.what==1){
+                viewer.noLogin();
+            }
+        }
+    };
     /**
      * 注销监听者
      */
@@ -67,29 +89,19 @@ public class BasePresenter<V extends BaseViewer> implements MvpPresenter<V> {
         }
         unsubscribe();
         subscription = observable
-                .subscribeOn(Schedulers.io())
-                .unsubscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .filter(mResponse ->{
+                .map(mResponse ->{
                     int error = mResponse.getError();
                     if(error!=0){
                         int messageType = mResponse.getMsg_type();
                         if(messageType == -100){
                             error=-100;
                         }
-
-                        switch (error){
-                            case 1:
-                                onError(new Throwable(mResponse.getMsg()),pullToRefresh);
-                                return false;
-                            case -100:
-                                viewer.noLogin();
-                                return false;
-                        }
+                        handler.sendMessage(handler.obtainMessage(error,mResponse.getMsg()));
                     }
-                    return true;
+                    return mResponse.getData();
                 })
-                .map(mResponse -> mResponse.getData())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(action1,
                         throwable -> {this.onError(throwable,pullToRefresh);},
                         this::onCompleted);
