@@ -26,7 +26,7 @@ public abstract class BaseFragment extends MvpBaseFragment {
     private int imageHeight ;
     public int pageSize = 8;
     public int offset = 0;
-    protected int currentPage = 0;
+    protected Integer currentPage = 0;
     private int red;
     private int green;
     private int blue;
@@ -152,14 +152,12 @@ public abstract class BaseFragment extends MvpBaseFragment {
     public void onRefreshBegin(PtrFrameLayout frame) {
         frame.postDelayed(()->  {
             onRefresh();
-        }, 1000);
+        }, 1800);
     }
 
     @Override
     public void closePtrFrameLayout() {
-        ptrFrameLayout.postDelayed(()->{
-            ptrFrameLayout.refreshComplete();
-        },1000);
+        ptrFrameLayout.refreshComplete();
     }
 
     @Override

@@ -33,13 +33,12 @@ public class ApiServiceModule {
 
 
     @Provides @Singleton
-    OkHttpClient provideClient(CookieManager cookieManager, AppApplication appApplication){
+    OkHttpClient provideClient(CookieManager cookieManager){
 //        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
 //        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
-        Cache cache = new Cache(appApplication.getCacheDir(), 10 * 1024 * 1024);
+//        Cache cache = new Cache(appApplication.getCacheDir(), 10 * 1024 * 1024);
         OkHttpClient.Builder client = new OkHttpClient.Builder();
         client.cookieJar(cookieManager);
-        client.cache(cache);
         return client.build();
     }
 

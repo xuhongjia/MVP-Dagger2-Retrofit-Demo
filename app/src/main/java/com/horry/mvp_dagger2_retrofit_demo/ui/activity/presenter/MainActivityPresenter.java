@@ -24,6 +24,11 @@ public class MainActivityPresenter extends BasePresenter<MainActivity> {
         super(viewer, apiService);
     }
 
+    @Override
+    public void loadData(Object t) {
+
+    }
+
     public void showUserName(){
         viewer.setTextView("成功");
     }

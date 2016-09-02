@@ -34,9 +34,9 @@ public class WechatPayHelper {
     StringBuffer sb;
     Map<String,String> resultunifiedorder;
 
-    public  String appId = "wx52eb4e0e80b09227";
-    public  String appKey ="4af47bf8faa92e834cec1ce6a02f6117";
-    public  String partnerId ="1343352701";
+    public  String appId = "wx1ba1fab6a763f7de";
+    public  String appKey ="fuwQfq3u3uMEndMrCOQKcLqGiZeEKtCV";
+    public  String partnerId ="1370714902";
     public  String tradeNo;
     public  float price;
     public  String notify_url;
@@ -53,25 +53,23 @@ public class WechatPayHelper {
     }
 
     private WechatPayHelper() {
-
-        init();
     }
 
-    private void init() {
-        msgApi = WXAPIFactory.createWXAPI(mContext, "wx1ba1fab6a763f7de" ,false);
-//        msgApi.registerApp(appId);
+    public void init() {
+        msgApi = WXAPIFactory.createWXAPI(mContext,appId,false);
+        msgApi.registerApp(appId);
         req = new PayReq();
         sb = new StringBuffer();
     }
 
     public void pay()
     {
+        init();
         GetPrepayIdTask getPrepayId = new GetPrepayIdTask();
         getPrepayId.execute();
     }
 
     private void sendPayReq() {
-
 //        msgApi.registerApp(appId);
         req = genParams();
         msgApi.sendReq(req);

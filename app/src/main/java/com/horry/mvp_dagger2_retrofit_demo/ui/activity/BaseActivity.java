@@ -148,9 +148,10 @@ public abstract class BaseActivity extends MvpBaseActivity {
             loaderText.setText("正在加载...");
             canLoad=false;
             showLoader(true);
-            loader.postDelayed(()->{
-                loadData(true);
-            },1000);
+            loadData(true);
+//            loader.postDelayed(()->{
+//
+//            },1000);
         }
     }
 
@@ -199,9 +200,10 @@ public abstract class BaseActivity extends MvpBaseActivity {
 
     @Override
     public void onRefreshBegin(PtrFrameLayout frame) {
-        frame.postDelayed(()->  {
-            onRefresh();
-        }, 1800);
+        onRefresh();
+//        frame.postDelayed(()->  {
+//
+//        }, 1800);
     }
 
     /**

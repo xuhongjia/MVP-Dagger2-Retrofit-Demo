@@ -6,6 +6,7 @@ import android.os.Message;
 
 import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiService;
 import com.horry.mvp_dagger2_retrofit_demo.model.Response;
+import com.horry.mvp_dagger2_retrofit_demo.model.home.Home;
 import com.softstao.softstaolibrary.library.mvp.presenter.MvpPresenter;
 import com.softstao.softstaolibrary.library.mvp.viewer.BaseViewer;
 
@@ -24,19 +25,18 @@ import rx.schedulers.Schedulers;
  *  * Created by xuhon on 2016/7/29.
  * @param <V> 继承BaseViewer
  */
-public class BasePresenter<V extends BaseViewer> implements MvpPresenter<V> {
+public abstract class BasePresenter<V extends BaseViewer> implements MvpPresenter<V> {
     /**
      * MVP中的V
      */
     protected V viewer;
 
     protected ApiService apiService;
-
+    protected Integer currentPage = 0;
     /**
      * 构造方法
      * @param viewer
      */
-    @Inject
     public BasePresenter(V viewer,ApiService apiService){
         this.viewer=viewer;
         this.apiService =apiService;
@@ -81,24 +81,35 @@ public class BasePresenter<V extends BaseViewer> implements MvpPresenter<V> {
      * @param observable 通过retrofit.create生成的observable
      * @param action1   实际处理请求的
      * @param pullToRefresh 是否在刷新
-     * @param <M> 获取的值
      */
-    public <M> void subscribe(Observable<Response<M>> observable, Action1<M> action1, final boolean pullToRefresh) {
+    public <T> void subscribe(Observable<Response<T>> observable, Action1<T> action1, final boolean pullToRefresh) {
         if (viewer!=null) {
             viewer.showLoading(pullToRefresh);
         }
         unsubscribe();
         subscription = observable
-                .map(mResponse ->{
+                .filter(mResponse ->{
                     int error = mResponse.getError();
                     if(error!=0){
                         int messageType = mResponse.getMsg_type();
                         if(messageType == -100){
                             error=-100;
                         }
-                        handler.sendMessage(handler.obtainMessage(error,mResponse.getMsg()));
+                        switch (error){
+                            case 1:
+                                onError(new Throwable(mResponse.getMsg()),pullToRefresh);
+                                return false;
+                            case -100:
+                                viewer.noLogin();
+                                return false;
+                        }
                     }
-                    return mResponse.getData();
+                    return true;
+                })
+                .map(mResponse -> {
+                    T m = mResponse.getData();
+                    loadData(m);
+                    return m;
                 })
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -132,11 +143,6 @@ public class BasePresenter<V extends BaseViewer> implements MvpPresenter<V> {
         unsubscribe();
     }
 
-    private class ResponseFunc<T> implements Func1<Response<T>, T> {
 
-        @Override
-        public T call(Response<T> tResponse) {
-            return null;
-        }
-    }
+    public abstract void loadData(Object t);
 }

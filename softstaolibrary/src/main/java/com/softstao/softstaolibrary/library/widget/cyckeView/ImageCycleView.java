@@ -75,6 +75,8 @@ public class ImageCycleView extends LinearLayout {
      */
     private float mScale;
 
+
+    private ArrayList<BasePic> data = new ArrayList<>();
     /**
      * @param context
      */
@@ -119,10 +121,18 @@ public class ImageCycleView extends LinearLayout {
      * @param imageCycleViewListener
      */
     public void setImageResources(ArrayList<BasePic> infoList, ImageCycleViewListener imageCycleViewListener) {
+        data=infoList;
+        setData();
+        mAdvAdapter = new ImageCycleAdapter(mContext, imageCycleViewListener);
+        mBannerPager.setAdapter(mAdvAdapter);
+        startImageTimerTask();
+    }
+
+    public void setData(){
         // 清除所有子视图
         mGroup.removeAllViews();
         // 图片广告数量
-        final int imageCount = infoList.size();
+        final int imageCount = data.size();
         mImageViews = new ImageView[imageCount];
         for (int i = 0; i < imageCount; i++) {
             mImageView = new ImageView(mContext);
@@ -141,11 +151,7 @@ public class ImageCycleView extends LinearLayout {
             }
             mGroup.addView(mImageViews[i]);
         }
-        mAdvAdapter = new ImageCycleAdapter(mContext, infoList, imageCycleViewListener);
-        mBannerPager.setAdapter(mAdvAdapter);
-        startImageTimerTask();
     }
-
 
     /**
      * 开始轮播(手动控制自动轮播与否，便于资源控制)
@@ -236,7 +242,7 @@ public class ImageCycleView extends LinearLayout {
         /**
          * 图片资源列表
          */
-        private ArrayList<BasePic> mAdList = new ArrayList<BasePic>();
+//        private ArrayList<BasePic> mAdList = new ArrayList<BasePic>();
 
         /**
          * 广告图片点击监听器
@@ -245,9 +251,8 @@ public class ImageCycleView extends LinearLayout {
 
         private Context mContext;
 
-        public ImageCycleAdapter(Context context, ArrayList<BasePic> adList, ImageCycleViewListener imageCycleViewListener) {
+        public ImageCycleAdapter(Context context, ImageCycleViewListener imageCycleViewListener) {
             mContext = context;
-            mAdList = adList;
             mImageCycleViewListener = imageCycleViewListener;
             mImageViewCacheList = new ArrayList();
         }
@@ -264,8 +269,8 @@ public class ImageCycleView extends LinearLayout {
 
         @Override
         public Object instantiateItem(ViewGroup container,int position) {
-            position=position % mAdList.size();
-            String imageUrl = mAdList.get(position).getPic();
+            position=position % data.size();
+            String imageUrl = data.get(position).getPic();
             ImageView imageView ;
             if (mImageViewCacheList.isEmpty()) {
                 imageView = new ImageView(mContext);
@@ -276,14 +281,10 @@ public class ImageCycleView extends LinearLayout {
                 imageView = mImageViewCacheList.remove(0);
             }
             // 设置图片点击监听
-            final int finalPosition = position;
-            imageView.setOnClickListener(new OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mImageCycleViewListener.onImageClick(mAdList.get(finalPosition), finalPosition, v);
-                }
+            int finalPosition = position;
+            imageView.setOnClickListener(v -> {
+                mImageCycleViewListener.onImageClick(data.get(finalPosition), finalPosition, v);
             });
-            imageView.setTag(imageUrl);
             container.addView(imageView);
             mImageCycleViewListener.displayImage(imageUrl, imageView);
             return imageView;
@@ -296,6 +297,11 @@ public class ImageCycleView extends LinearLayout {
             mImageViewCacheList.add(view);
         }
 
+        @Override
+        public void notifyDataSetChanged() {
+            super.notifyDataSetChanged();
+            setData();
+        }
     }
 
     /**
@@ -324,5 +330,13 @@ public class ImageCycleView extends LinearLayout {
 
     public void setGroupGravity(int gravity){
         ((LinearLayout)mGroup).setGravity(gravity);
+    }
+
+    public PagerAdapter getmAdvAdapter() {
+        return mAdvAdapter;
+    }
+
+    public void setmAdvAdapter(PagerAdapter mAdvAdapter) {
+        this.mAdvAdapter = mAdvAdapter;
     }
 }

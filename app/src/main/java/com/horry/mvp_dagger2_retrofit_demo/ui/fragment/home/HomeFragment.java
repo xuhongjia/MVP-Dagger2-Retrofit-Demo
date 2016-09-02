@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.horry.mvp_dagger2_retrofit_demo.AppComponent;
 import com.horry.mvp_dagger2_retrofit_demo.R;
+import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiService;
 import com.horry.mvp_dagger2_retrofit_demo.model.User;
 import com.horry.mvp_dagger2_retrofit_demo.model.goods.Goods;
 import com.horry.mvp_dagger2_retrofit_demo.model.home.Home;
@@ -68,25 +71,29 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
         setChange(true);
         changeContentRule(RelativeLayout.BELOW,0);
         setPtrFrameLayoutEnable();
-        adapter = new RecycleViewBaseAdapter<Product>(pics, R.layout.category_item) {
+        adapter = new RecycleViewBaseAdapter<Product>(presenter.getPics(), R.layout.category_item) {
             @Override
             public void convert(RecycleViewHolder holder, Product product) {
                 holder.setText(R.id.name, product.getName());
                 ImageView imageView = holder.getView(R.id.img);
-                ViewGroup.LayoutParams lp = imageView.getLayoutParams();
-                lp.height = getScreenWidth(getContext()) / 4 - LZUtils.dipToPix(getContext(), 40);
-                lp.width = getScreenWidth(getContext()) / 4 - LZUtils.dipToPix(getContext(), 40);
-                ImageLoader.getInstance().displayImage(product.getPic(), imageView);
+//                ViewGroup.LayoutParams lp = imageView.getLayoutParams();
+//                lp.height = getScreenWidth(getContext()) / 4 - LZUtils.dipToPix(getContext(), 40);
+//                lp.width = getScreenWidth(getContext()) / 4 - LZUtils.dipToPix(getContext(), 40);
+                int width = getScreenWidth(getContext()) / 4 - LZUtils.dipToPix(getContext(), 40);
+                Glide.with(mContext)
+                        .load(product.getPic()).diskCacheStrategy(DiskCacheStrategy.ALL).override(width,width).into(imageView);
+//                ImageLoader.getInstance().displayImage(product.getPic(), imageView);
 //                ((ImageView)holder.getView(R.id.img)).setImageDrawable(getResources().getDrawable(Integer.parseInt(product.getPic())));
             }
         };
         category.setAdapter(adapter);
         category.setLayoutManager(new FullyGridLayoutManager(getContext(), 4));
-        goodsAdapter = new GoodsAdapter(goodses);
+        goodsAdapter = new GoodsAdapter(presenter.getGoodses());
         goodsList.setAdapter(goodsAdapter);
         goodsList.setLayoutManager(new FullyGridLayoutManager(getContext(), 2));
         goodsList.addItemDecoration(new MarginDecoration(getContext()));
         tintManager.setStatusBarTintColor(Color.TRANSPARENT);
+        startAdView();
     }
 
     //<!--softstao!-->
@@ -94,7 +101,9 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
     private ImageCycleView.ImageCycleViewListener mAdCycleViewListener = new ImageCycleView.ImageCycleViewListener() {
         @Override
         public void displayImage(String imageURL, ImageView imageView) {
-            ImageLoader.getInstance().displayImage(imageURL, imageView);
+            Glide.with(mContext)
+                    .load(imageURL).diskCacheStrategy(DiskCacheStrategy.ALL).centerCrop().into(imageView);
+//            ImageLoader.getInstance().displayImage(imageURL, imageView);
 //            imageView.setImageDrawable(getResources().getDrawable(Integer.parseInt(imageURL)));
 //            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
@@ -154,24 +163,12 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
 
 
     @Override
-    public void HomeReturn(Home home) {
-        this.home = home;
+    public void HomeReturn() {
         if (currentPage == 0) {
-            goodses.clear();
-            if (data.size() == 0 || !data.get(0).getId().equals(home.getFlashes().get(0).getId())) {
-                data.clear();
-                data.addAll(home.getFlashes());
-                startAdView();
-            }
-        }
-        if (home.getCategory() != null && home.getCategory().size() != pics.size()) {
-            pics.clear();
-            pics.addAll(home.getCategory());
+            adView.getmAdvAdapter().notifyDataSetChanged();
             adapter.notifyDataSetChanged();
         }
-        int size = goodses.size();
-        goodses.addAll(home.getGoods());
-        goodsAdapter.notifyItemInserted(size);
+        goodsAdapter.notifyItemRangeInserted(presenter.getGoodsSize(), ApiService.pageSize);
     }
 
     @Override
@@ -180,8 +177,8 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
     }
 
     protected void startAdView(){
-        if(data!=null) {
-            adView.setImageResources(data, mAdCycleViewListener);
+        if(presenter.getData()!=null) {
+            adView.setImageResources(presenter.getData(), mAdCycleViewListener);
         }
     }
 }

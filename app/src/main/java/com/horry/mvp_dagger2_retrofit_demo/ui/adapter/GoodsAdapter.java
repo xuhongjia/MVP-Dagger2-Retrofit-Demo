@@ -4,6 +4,8 @@ import android.graphics.Paint;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.horry.mvp_dagger2_retrofit_demo.AppApplication;
 import com.horry.mvp_dagger2_retrofit_demo.R;
 import com.horry.mvp_dagger2_retrofit_demo.model.goods.Goods;
@@ -31,6 +33,9 @@ public class GoodsAdapter extends RecycleViewBaseAdapter<Goods> {
         tv.setText("￥"+ LZUtils.priceFormat(Double.valueOf(goods.getMarket_price()!=null?goods.getMarket_price():"0")));
         holder.setText(R.id.goods_name,goods.getName()!=null?goods.getName():"")
                 .setText(R.id.price, "￥"+ LZUtils.priceFormat(Double.valueOf(goods.getPrice()!=null?goods.getPrice():"0")));
+        int width=getScreenWidth(holder.itemView.getContext())/2-LZUtils.dipToPix(holder.itemView.getContext(),10);
+//        Glide.with(holder.itemView.getContext())
+//                .load(goods.getDefault_pic()).diskCacheStrategy(DiskCacheStrategy.ALL).into((ImageView)holder.getView(R.id.img));
 //        ImageLoader.getInstance().displayImage(goods.getDefault_pic(),(ImageView)holder.getView(R.id.img));
 //        ((ImageView)holder.getView(R.id.img)).setImageDrawable(holder.itemView.getResources().getDrawable(Integer.parseInt(goods.getDefault_pic())));
     }

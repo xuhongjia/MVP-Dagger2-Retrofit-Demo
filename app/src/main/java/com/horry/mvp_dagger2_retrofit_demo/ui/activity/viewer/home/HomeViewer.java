@@ -9,6 +9,6 @@ import com.softstao.softstaolibrary.library.mvp.viewer.BaseViewer;
  */
 public interface HomeViewer extends BaseViewer {
     //回调
-    void HomeReturn(Home home);
+    void HomeReturn();
     void resultMember(User user);
 }
