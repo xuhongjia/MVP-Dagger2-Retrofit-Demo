@@ -51,7 +51,7 @@ public class WechatTab extends HorizontalScrollView {
     private int visibleItemCount = 0; //可见的项目个数
 
     public interface IconTabProvider {
-        int getPageIconResId(int position);
+        public int getPageIconResId(int position);
     }
 
     // @formatter:off

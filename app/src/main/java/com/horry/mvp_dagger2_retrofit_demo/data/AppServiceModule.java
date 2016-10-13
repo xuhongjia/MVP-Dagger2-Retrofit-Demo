@@ -20,15 +20,6 @@ public class AppServiceModule {
 
     @Provides
     @Singleton
-    User provideUser() {
-        User user = new User();
-        user.setId("1");
-        user.setName("wwww");
-        return user;
-    }
-
-    @Provides
-    @Singleton
     SharePreferenceManager provideSharePreferenceManager(AppApplication appApplication, Gson gson){
         return new SharePreferenceManager(appApplication,gson);
     }

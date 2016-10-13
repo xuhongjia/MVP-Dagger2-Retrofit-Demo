@@ -6,7 +6,6 @@ import android.util.AttributeSet;
 import android.view.MotionEvent;
 import android.widget.ScrollView;
 
-
 /**
  * Created by Administrator on 2016/5/12.
  */

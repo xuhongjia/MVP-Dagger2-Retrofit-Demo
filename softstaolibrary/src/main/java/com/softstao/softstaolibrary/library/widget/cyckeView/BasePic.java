@@ -1,11 +1,10 @@
 package com.softstao.softstaolibrary.library.widget.cyckeView;
 
-import java.io.Serializable;
-
 /**
  * Created by Administrator on 2016/7/14.
  */
-public class BasePic implements Serializable {
+public class BasePic {
+
     public enum Type
     {
         HTML5,
@@ -13,10 +12,12 @@ public class BasePic implements Serializable {
         TYPE,
         SUBTYPE,
         BRAND,
+        ORDER,
         COUNTRY,
         GOODS,
         SHOP,
-        COUPON
+        COUPON,
+        ARTICLE
     }
 
     /**
@@ -46,6 +47,15 @@ public class BasePic implements Serializable {
     private String end_time;
     private String position;
     private String channel;
+    private String memo;
+
+    public String getMemo() {
+        return memo;
+    }
+
+    public void setMemo(String memo) {
+        this.memo = memo;
+    }
 
     public String getId() {
         return id;
@@ -142,4 +152,5 @@ public class BasePic implements Serializable {
     public void setChannel(String channel) {
         this.channel = channel;
     }
+
 }

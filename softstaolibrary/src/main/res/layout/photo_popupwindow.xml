@@ -21,7 +21,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_white_top_round_selector"
-            android:padding="5dp"
+            android:padding="8dp"
             android:text="拍照"
             android:textColor="#471c0c"
             android:textSize="16dp" />
@@ -37,7 +37,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="10dp"
             android:background="@drawable/bg_white_bottom_round_selector"
-            android:padding="5dp"
+            android:padding="8dp"
             android:text="本地"
             android:textColor="#471c0c"
             android:textSize="16dp" />
@@ -47,7 +47,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@drawable/bg_white_selector"
-            android:padding="5dp"
+            android:padding="8dp"
             android:text="取消"
             android:textColor="#471c0c"
             android:textSize="16dp" />

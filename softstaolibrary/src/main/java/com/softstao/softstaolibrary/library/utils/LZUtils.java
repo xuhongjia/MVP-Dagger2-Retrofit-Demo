@@ -18,7 +18,6 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
-
 import com.softstao.softstaolibrary.library.widget.LZToast;
 
 import java.io.BufferedReader;
@@ -74,8 +73,11 @@ public class LZUtils {
                 .compile(
                         "^1[3-8]+\\d{9}$")
                 .matcher(mobile);
-        return (!TextUtils.isEmpty(mobile)) && (localMatcher.matches());
+        if ((!TextUtils.isEmpty(mobile)) && (localMatcher.matches())) {
+            return true;
+        }
 
+        return false;
     }
 
     public static boolean isEmail(String email)
@@ -415,7 +417,7 @@ public class LZUtils {
         } catch (NumberFormatException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        } catch (java.text.ParseException e) {
+        } catch (ParseException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
         }
@@ -469,7 +471,11 @@ public class LZUtils {
     private static boolean isNumeric(String str) {
         Pattern pattern = Pattern.compile("[0-9]*");
         Matcher isNum = pattern.matcher(str);
-        return isNum.matches();
+        if (isNum.matches()) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**

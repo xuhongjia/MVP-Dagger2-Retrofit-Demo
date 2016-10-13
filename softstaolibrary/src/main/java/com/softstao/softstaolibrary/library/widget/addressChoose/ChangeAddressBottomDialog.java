@@ -167,7 +167,7 @@ public class ChangeAddressBottomDialog extends Dialog implements View.OnClickLis
 		}
 		if (arrCitys != null && arrCitys.size() > 0
 				&& !arrCitys.contains(strCity)) {
-			strCity = arrCitys.get(0);
+//			strCity = arrCitys.get(0);
 		}
 	}
 	
@@ -193,7 +193,7 @@ public class ChangeAddressBottomDialog extends Dialog implements View.OnClickLis
 		}
 		if (arrAreas != null && arrAreas.size() > 0
 				&& !arrAreas.contains(strArea)) {
-			strArea = arrAreas.get(0);
+//			strArea = arrAreas.get(0);
 		}
 	}
 
@@ -450,7 +450,7 @@ public class ChangeAddressBottomDialog extends Dialog implements View.OnClickLis
 	}
 
 	public interface OnAddressCListener {
-		void onClick(String province, String city, String area);
+		public void onClick(String province, String city, String area);
 	}
 	
 	public void setTextviewSize(String curriteItemText, AddressTextAdapter adapter) {

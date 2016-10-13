@@ -16,7 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-
+import com.softstao.softstaolibrary.R;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -25,7 +25,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import com.softstao.softstaolibrary.R;
+
 /**
  * Created by jacob on 15/6/16.
  */
@@ -44,7 +44,7 @@ public class PhotoPicker2 extends Dialog {
 
     private Context mContext;
     private Fragment fragment;
-
+    private String tag;
     public static String mCurrentPhotoPath;
     public static Uri mCurrentPhotoUri;
 
@@ -257,6 +257,11 @@ public class PhotoPicker2 extends Dialog {
         return image;
     }
 
+    public String getTag() {
+        return tag;
+    }
 
-
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 }

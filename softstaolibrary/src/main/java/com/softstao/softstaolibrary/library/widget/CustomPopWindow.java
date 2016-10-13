@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
+
 import com.softstao.softstaolibrary.R;
 
 /**
@@ -107,7 +108,7 @@ public class CustomPopWindow extends PopupWindow {
 
     public interface OnPopWindowListener
     {
-        void onCancel();
-        void onConfirm();
+        public void onCancel();
+        public void onConfirm();
     }
 }

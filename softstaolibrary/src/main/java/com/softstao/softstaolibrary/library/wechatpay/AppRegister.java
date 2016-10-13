@@ -11,7 +11,7 @@ public class AppRegister extends BroadcastReceiver {
 
 	@Override
 	public void onReceive(Context context, Intent intent) {
-		final IWXAPI api = WXAPIFactory.createWXAPI(context, "wx1ba1fab6a763f7de",false);
+		final IWXAPI api = WXAPIFactory.createWXAPI(context, Constants.APP_ID,false);
 
 		api.registerApp(Constants.APP_ID);
 	}

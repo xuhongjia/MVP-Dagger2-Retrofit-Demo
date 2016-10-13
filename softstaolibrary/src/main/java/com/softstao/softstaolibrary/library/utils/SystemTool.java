@@ -16,30 +16,30 @@ package com.softstao.softstaolibrary.library.utils;
  * limitations under the License.
  */
 
-        import java.io.File;
-        import java.security.MessageDigest;
-        import java.text.SimpleDateFormat;
-        import java.util.Date;
-        import java.util.List;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.ActivityManager;
+import android.app.ActivityManager.MemoryInfo;
+import android.app.ActivityManager.RunningAppProcessInfo;
+import android.app.ActivityManager.RunningServiceInfo;
+import android.app.KeyguardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.net.NetworkInfo.State;
+import android.net.Uri;
+import android.telephony.TelephonyManager;
+import android.view.inputmethod.InputMethodManager;
 
-        import android.annotation.SuppressLint;
-        import android.app.Activity;
-        import android.app.ActivityManager;
-        import android.app.ActivityManager.MemoryInfo;
-        import android.app.ActivityManager.RunningAppProcessInfo;
-        import android.app.ActivityManager.RunningServiceInfo;
-        import android.app.KeyguardManager;
-        import android.content.Context;
-        import android.content.Intent;
-        import android.content.pm.PackageInfo;
-        import android.content.pm.PackageManager;
-        import android.content.pm.PackageManager.NameNotFoundException;
-        import android.net.ConnectivityManager;
-        import android.net.NetworkInfo;
-        import android.net.NetworkInfo.State;
-        import android.net.Uri;
-        import android.telephony.TelephonyManager;
-        import android.view.inputmethod.InputMethodManager;
+import java.io.File;
+import java.security.MessageDigest;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 系统信息工具包<br>
@@ -146,13 +146,17 @@ public final class SystemTool {
     public static boolean isBackground(Context context) {
         ActivityManager activityManager = (ActivityManager) context
                 .getSystemService(Context.ACTIVITY_SERVICE);
-        List<ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
+        List<RunningAppProcessInfo> appProcesses = activityManager
                 .getRunningAppProcesses();
-        for (ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+        for (RunningAppProcessInfo appProcess : appProcesses) {
             if (appProcess.processName.equals(context.getPackageName())) {
-                // 后台运行
-// 前台运行
-                return appProcess.importance == RunningAppProcessInfo.IMPORTANCE_BACKGROUND;
+                if (appProcess.importance == RunningAppProcessInfo.IMPORTANCE_BACKGROUND) {
+                    // 后台运行
+                    return true;
+                } else {
+                    // 前台运行
+                    return false;
+                }
             }
         }
         return false;
@@ -194,7 +198,7 @@ public final class SystemTool {
         try {
             version = context.getPackageManager().getPackageInfo(
                     context.getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (NameNotFoundException e) {
             throw new RuntimeException(SystemTool.class.getName()
                     + "the application not found");
         }
@@ -209,7 +213,7 @@ public final class SystemTool {
         try {
             version = context.getPackageManager().getPackageInfo(
                     context.getPackageName(), 0).versionCode;
-        } catch (PackageManager.NameNotFoundException e) {
+        } catch (NameNotFoundException e) {
             throw new RuntimeException(SystemTool.class.getName()
                     + "the application not found");
         }

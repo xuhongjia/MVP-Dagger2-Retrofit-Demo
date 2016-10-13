@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.softstao.softstaolibrary.R;
 
 
@@ -160,7 +161,7 @@ public class CustomDialog extends Dialog {
 
         public interface  OnDialogConfirmListener
         {
-            void onConfirm();
+            public void onConfirm();
         }
 
         public void setOnDialogConfirmListener(OnDialogConfirmListener onDialogConfirmListener) {

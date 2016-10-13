@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
-
 import com.softstao.softstaolibrary.R;
 
 import java.util.ArrayList;
@@ -220,14 +219,16 @@ public class ImageCycleView extends LinearLayout {
 
         @Override
         public void onPageSelected(int index) {
-            index = index % mImageViews.length;
-            mImageViews[index].setBackgroundResource(R.mipmap.page_indicator_focused);
-            for (int i = 0; i < mImageViews.length; i++) {
-                if (index != i) {
-                    mImageViews[i].setBackgroundResource(R.mipmap.page_indicator_unfocused);
+            if(mImageViews.length!=0){
+                index = index % mImageViews.length;
+                mImageViews[index].setBackgroundResource(R.mipmap.page_indicator_focused);
+                for (int i = 0; i < mImageViews.length; i++) {
+                    if (index != i) {
+                        mImageViews[i].setBackgroundResource(R.mipmap.page_indicator_unfocused);
+                    }
                 }
+                startImageTimerTask();
             }
-            startImageTimerTask();
         }
 
     }

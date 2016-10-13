@@ -4,17 +4,16 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
-    android:background="@color/gray2"
+    android:background="#efefef"
     >
 
     <TextView
         android:id="@+id/tv_error_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:layout_marginTop="-50.0dip"
         android:gravity="center"
-        android:text="暂无数据"
+        android:text="暂无数据，请点击刷新"
         android:textColor="@color/font_gray"
         android:textSize="16sp" />
 

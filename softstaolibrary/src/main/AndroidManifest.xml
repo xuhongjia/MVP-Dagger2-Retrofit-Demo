@@ -9,5 +9,9 @@
         <meta-data android:name="com.softstao.softstaolibrary.library.global.GlideConfiguration"
             android:value="GlideModule"/>
     </application>
+    <meta-data
+        android:name="com.softstao.softstaolibrary.library.Glide.GlideConfiguration"
+        android:value="GlideModule" />
 
+    <activity android:name=".library.activity.PhotoActivity"/>
 </manifest>

@@ -1,5 +1,7 @@
 package com.softstao.softstaolibrary.library.utils;
 
+import android.util.Log;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileWriter;
@@ -7,7 +9,6 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import android.util.Log;
 
 /**
  * 带日志文件输入的，又可控开关的日志调试

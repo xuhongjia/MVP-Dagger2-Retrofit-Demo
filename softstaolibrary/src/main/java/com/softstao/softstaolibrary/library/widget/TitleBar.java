@@ -1,11 +1,11 @@
 package com.softstao.softstaolibrary.library.widget;
 
 import android.app.Activity;
+import android.support.v4.app.Fragment;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -15,8 +15,8 @@ import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.softstao.softstaolibrary.R;
 
+import com.softstao.softstaolibrary.R;
 import com.softstao.softstaolibrary.library.utils.LZUtils;
 
 /**
@@ -39,6 +39,7 @@ public class TitleBar extends Fragment {
     private TextView rightTextView;
     private ImageView rightImageView;
 
+    private ImageView img;
     private View divider;
 
     private int backgroundColor = 0xfff;
@@ -68,7 +69,7 @@ public class TitleBar extends Fragment {
     public void onInflate(Activity activity, AttributeSet attrs, Bundle savedInstanceState) {
         super.onInflate(activity, attrs, savedInstanceState);
 
-        TypedArray a = activity.obtainStyledAttributes(attrs,R.styleable.TitleBar);
+        TypedArray a = activity.obtainStyledAttributes(attrs, R.styleable.TitleBar);
 
         fontColor = a.getColor(R.styleable.TitleBar_titlebar_font_color, fontColor);
         backgroundColor = a.getColor(R.styleable.TitleBar_titlebar_background, backgroundColor);
@@ -97,7 +98,7 @@ public class TitleBar extends Fragment {
 
         rightTextView = (TextView) rightLayout.findViewById(R.id.right_tv);
         rightImageView = (ImageView) rightLayout.findViewById(R.id.right_iv);
-
+        img = (ImageView)mainView.findViewById(R.id.img);
         divider = mainView.findViewById(R.id.divider);
     }
 
@@ -210,7 +211,8 @@ public class TitleBar extends Fragment {
 
     public void setLeftIconOnClick(View.OnClickListener listener)
     {
-        leftImageView.setOnClickListener(listener);
+//        leftImageView.setOnClickListener(listener);
+        leftlayout.setOnClickListener(listener);
     }
 
     public void setRightIconOnClick(View.OnClickListener listener)
@@ -295,5 +297,69 @@ public class TitleBar extends Fragment {
 
     public void setSearchView(EditText searchView) {
         this.searchView = searchView;
+    }
+
+    public TextView getLeftTextView() {
+        return leftTextView;
+    }
+
+    public void setLeftTextView(TextView leftTextView) {
+        this.leftTextView = leftTextView;
+    }
+
+    public TextView getCenterTextView() {
+        return centerTextView;
+    }
+
+    public void setCenterTextView(TextView centerTextView) {
+        this.centerTextView = centerTextView;
+    }
+
+    public TextView getRightTextView() {
+        return rightTextView;
+    }
+
+    public void setRightTextView(TextView rightTextView) {
+        this.rightTextView = rightTextView;
+    }
+
+    public ImageView getRightImageView() {
+        return rightImageView;
+    }
+
+    public void setRightImageView(ImageView rightImageView) {
+        this.rightImageView = rightImageView;
+    }
+
+    public ImageView getLeftImageView() {
+        return leftImageView;
+    }
+
+    public void setLeftImageView(ImageView leftImageView) {
+        this.leftImageView = leftImageView;
+    }
+
+    public ImageView getBackImageView() {
+        return backImageView;
+    }
+
+    public void setBackImageView(ImageView backImageView) {
+        this.backImageView = backImageView;
+    }
+
+    public FrameLayout getRightLayout() {
+        return rightLayout;
+    }
+
+    public void setRightLayout(FrameLayout rightLayout) {
+        this.rightLayout = rightLayout;
+    }
+
+    public ImageView getImg() {
+        return img;
+    }
+
+    public void setImg(ImageView img) {
+        this.img = img;
     }
 }

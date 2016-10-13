@@ -36,7 +36,7 @@ public class AlipayHelper {
     private String privateKey;
     private PayCallBack payCallBack;
 
-    public static Context mContext;
+    public Context mContext;
     public static AlipayHelper alipayUtils;
     private Handler mHandler = new Handler() {
         public void handleMessage(Message msg) {
@@ -239,7 +239,7 @@ public class AlipayHelper {
     }
 
     public void setmContext(Context mContext) {
-        AlipayHelper.mContext = mContext;
+        mContext = mContext;
     }
 
     public String getNotifyURL() {

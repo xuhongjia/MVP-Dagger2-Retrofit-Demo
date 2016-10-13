@@ -40,7 +40,9 @@ import android.widget.TextView;
 public class BadgeView extends TextView {
 
     private boolean mHideOnNull = true;
-
+    private boolean mShowNumber = true;
+    private boolean mShowTarView = true;
+    private View tag;
     public BadgeView(Context context) {
         this(context, null);
     }
@@ -72,7 +74,7 @@ public class BadgeView extends TextView {
         setPadding(dip2Px(5), dip2Px(1), dip2Px(5), dip2Px(1));
 
         // set default background
-        setBackground(9, Color.parseColor("#d3321b"));
+        setBackgroundDrawable(9, Color.parseColor("#d3321b"));
 
         setGravity(Gravity.CENTER);
 
@@ -81,14 +83,14 @@ public class BadgeView extends TextView {
         setBadgeCount(0);
     }
 
-    public void setBackground(int dipRadius, int badgeColor) {
+    public void setBackgroundDrawable(int dipRadius, int badgeColor) {
         int radius = dip2Px(dipRadius);
         float[] radiusArray = new float[] { radius, radius, radius, radius, radius, radius, radius, radius };
 
         RoundRectShape roundRect = new RoundRectShape(radiusArray, null, null);
         ShapeDrawable bgDrawable = new ShapeDrawable(roundRect);
         bgDrawable.getPaint().setColor(badgeColor);
-        setBackground(bgDrawable);
+        setBackgroundDrawable(bgDrawable);
     }
 
     /**
@@ -115,10 +117,21 @@ public class BadgeView extends TextView {
     public void setText(CharSequence text, BufferType type) {
         if (isHideOnNull() && (text == null || text.toString().equalsIgnoreCase("0"))) {
             setVisibility(View.GONE);
+            if(!mShowTarView&&tag!=null){
+                tag.setVisibility(VISIBLE);
+            }
         } else {
             setVisibility(View.VISIBLE);
+            if(!mShowTarView&&tag!=null){
+                tag.setVisibility(GONE);
+            }
         }
-        super.setText(text, type);
+        if(mShowNumber) {
+            super.setText(text, type);
+        }
+        else{
+            super.setText("", type);
+        }
     }
 
     public void setBadgeCount(int count) {
@@ -220,12 +233,12 @@ public class BadgeView extends TextView {
 
             badgeContainer.setLayoutParams(parentLayoutParams);
             target.setLayoutParams(new ViewGroup.LayoutParams(
-                ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-
+                    ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
             parentContainer.addView(badgeContainer, groupIndex, parentLayoutParams);
             badgeContainer.addView(target);
 
             badgeContainer.addView(this);
+            tag=target;
         } else if (target.getParent() == null) {
             Log.e(getClass().getSimpleName(), "ParentView is needed");
         }
@@ -237,5 +250,30 @@ public class BadgeView extends TextView {
      */
     private int dip2Px(float dip) {
         return (int) (dip * getContext().getResources().getDisplayMetrics().density + 0.5f);
+    }
+
+    public boolean ismShowNumber() {
+        return mShowNumber;
+    }
+
+    public void setmShowNumber(boolean mShowNumber) {
+        this.mShowNumber = mShowNumber;
+    }
+
+    public boolean ismShowTarView() {
+        return mShowTarView;
+    }
+
+    public void setmShowTarView(boolean mShowTarView) {
+        this.mShowTarView = mShowTarView;
+    }
+
+    @Override
+    public View getTag() {
+        return tag;
+    }
+
+    public void setTag(View tag) {
+        this.tag = tag;
     }
 }

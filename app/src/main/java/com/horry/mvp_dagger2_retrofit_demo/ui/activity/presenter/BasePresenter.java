@@ -4,6 +4,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 
+import com.horry.mvp_dagger2_retrofit_demo.data.ModelHelper;
+import com.horry.mvp_dagger2_retrofit_demo.data.ModelHelperImpl;
 import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiService;
 import com.horry.mvp_dagger2_retrofit_demo.model.Response;
 import com.horry.mvp_dagger2_retrofit_demo.model.home.Home;
@@ -31,40 +33,22 @@ public abstract class BasePresenter<V extends BaseViewer> implements MvpPresente
      */
     protected V viewer;
 
-    protected ApiService apiService;
+    protected ModelHelperImpl helper;
     protected Integer currentPage = 0;
     /**
      * 构造方法
      * @param viewer
      */
-    public BasePresenter(V viewer,ApiService apiService){
+    public BasePresenter(V viewer,ModelHelperImpl helper){
         this.viewer=viewer;
-        this.apiService =apiService;
+        this.helper =helper;
     }
 
     /**
      * 订阅对象
      */
-//    private Subscription subscription;
     private Subscription subscription;
 
-    protected Handler handler = new Handler(){
-        @Override
-        public void handleMessage(Message msg) {
-            super.handleMessage(msg);
-            if(msg.what==100){
-                String errorMsg = (String) msg.obj;
-                try {
-                    throw new Throwable(errorMsg);
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-            }
-            else if(msg.what==1){
-                viewer.noLogin();
-            }
-        }
-    };
     /**
      * 注销监听者
      */
@@ -72,7 +56,6 @@ public abstract class BasePresenter<V extends BaseViewer> implements MvpPresente
         if (subscription != null && !subscription.isUnsubscribed()) {
             subscription.unsubscribe();
         }
-
         subscription = null;
     }
 
@@ -106,11 +89,7 @@ public abstract class BasePresenter<V extends BaseViewer> implements MvpPresente
                     }
                     return true;
                 })
-                .map(mResponse -> {
-                    T m = mResponse.getData();
-                    loadData(m);
-                    return m;
-                })
+                .map(mResponse -> mResponse.getData())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(action1,
@@ -142,7 +121,4 @@ public abstract class BasePresenter<V extends BaseViewer> implements MvpPresente
         }
         unsubscribe();
     }
-
-
-    public abstract void loadData(Object t);
 }

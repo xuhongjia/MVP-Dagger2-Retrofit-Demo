@@ -22,4 +22,12 @@ public class MarginDecoration extends RecyclerView.ItemDecoration {
             Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
         outRect.set(margin, margin, 0, 0);
     }
+
+    public int getMargin() {
+        return margin;
+    }
+
+    public void setMargin(int margin) {
+        this.margin = margin;
+    }
 }

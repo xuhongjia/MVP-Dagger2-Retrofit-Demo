@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/alertdialog_bg"
+    android:padding="10dp">
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:text="xxxxxxxx"
+        />
+    <info.hoang8f.widget.FButton
+        android:id="@+id/btn"
+        android:layout_width="fill_parent"
+        android:layout_height="45dp"
+        android:layout_margin="20dp"
+        android:gravity="center"
+        android:text="确定"
+        android:textColor="@color/white"
+        app:buttonColor="@color/font_blue"
+        app:cornerRadius="5dp"
+        app:shadowEnabled="false"
+        android:textSize="16.0sp" />
+</LinearLayout>

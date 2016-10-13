@@ -4,41 +4,51 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
+    android:clickable="true"
     android:background="@color/white">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
         android:layout_centerInParent="true"
         android:padding="5dp"
         >
 
-    <include
-        android:id="@+id/left_fr"
-        layout="@layout/title_bar_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left|center_vertical"
-        />
+        <include
+            android:id="@+id/left_fr"
+            layout="@layout/title_bar_left"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="left|center_vertical"
+            android:layout_alignParentLeft="true"
+            />
+        <include
+            android:id="@+id/right_fr"
+            layout="@layout/title_bar_right"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_alignParentRight="true"
+            android:layout_gravity="center_vertical"
+            />
+        <include
+            android:id="@+id/center_fr"
+            layout="@layout/title_bar_center"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_gravity="center" />
+        <ImageView
+            android:id="@+id/img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="60dp"
+            android:visibility="gone"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            />
 
-    <include
-        android:id="@+id/center_fr"
-        layout="@layout/title_bar_center"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_gravity="center" />
 
-    <include
-        android:id="@+id/right_fr"
-        layout="@layout/title_bar_right"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="right|center_vertical"
-        android:layout_marginRight="7dp" />
-
-    </LinearLayout>
+    </RelativeLayout>
 
     <View
         android:id="@+id/divider"

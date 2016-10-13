@@ -1,5 +1,6 @@
 package com.horry.mvp_dagger2_retrofit_demo.ui.fragment.home;
 
+import com.horry.mvp_dagger2_retrofit_demo.data.ModelHelperImpl;
 import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiService;
 import com.horry.mvp_dagger2_retrofit_demo.model.goods.Goods;
 import com.horry.mvp_dagger2_retrofit_demo.model.home.Home;
@@ -32,43 +33,35 @@ public class HomeFragmentPresenter extends BasePresenter<HomeFragment> {
      * 构造方法
      *
      * @param viewer
-     * @param apiService
+     * @param helper
      */
     @Inject
-    public HomeFragmentPresenter(HomeFragment viewer, ApiService apiService) {
-        super(viewer, apiService);
+    public HomeFragmentPresenter(HomeFragment viewer, ModelHelperImpl helper) {
+        super(viewer, helper);
     }
-
-    @Override
-    public void loadData(Object o) {
-        if(o instanceof Home){
-            Home home = (Home) o;
-            if(currentPage==0){
-                goodses.clear();
-                if (data.size() == 0 || !data.get(0).getId().equals(home.getFlashes().get(0).getId())){
-                    data.clear();
-                    data.addAll(home.getFlashes());
-                }
-                if (home.getCategory() != null && home.getCategory().size() != pics.size()) {
-                    pics.clear();
-                    pics.addAll(home.getCategory());
-                }
-            }
-            goodsSize = goodses.size();
-            goodses.addAll(home.getGoods());
-        }
-    }
-
 
     public void getHome(int currentPage,boolean pullToRefresh){
         this.currentPage=currentPage;
-        subscribe(apiService.getHome(currentPage*apiService.pageSize+""),home -> {
+        subscribe(helper.getHome(currentPage),home -> {
             if (home == null) {
                 viewer.isEmpty();
             } else if (home.getGoods() == null ||home.getGoods().size()==0) {
                 viewer.noMoreData();
             } else {
-                handler.postDelayed(viewer::HomeReturn,1000);
+                if(currentPage==0){
+                    goodses.clear();
+                    if (data.size() == 0 || !data.get(0).getId().equals(home.getFlashes().get(0).getId())){
+                        data.clear();
+                        data.addAll(home.getFlashes());
+                    }
+                    if (home.getCategory() != null && home.getCategory().size() != pics.size()) {
+                        pics.clear();
+                        pics.addAll(home.getCategory());
+                    }
+                }
+                goodsSize = goodses.size();
+                goodses.addAll(home.getGoods());
+                viewer.HomeReturn();
             }
         },pullToRefresh);
     }

@@ -444,7 +444,7 @@ private void initJsonData() {
 	}
 
 	public interface OnAddressCListener {
-		void onClick(String province, String city, String area);
+		public void onClick(String province, String city, String area);
 	}
 	
 	public void setTextviewSize(String curriteItemText, AddressTextAdapter adapter) {

@@ -127,20 +127,16 @@
         <item name="android:onClick">onClick</item>
         <item name="android:padding">10dp</item>
     </style>
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
-        <!-- Customize your theme here. -->
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
-        <item name="colorAccent">@color/colorAccent</item>
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
+
 
     <style name="MyDialog" parent="@android:style/Theme.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
         <item name="android:windowFrame">@null</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@style/AnimBottom</item>
     </style>
 
     <declare-styleable name="MyRatingStar">
@@ -177,4 +173,49 @@
         <item name="android:windowContentOverlay">@null</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+
+    <style name="edit_left">
+        <item name="android:textSize">14.0sp</item>
+        <item name="android:textColor">@color/font_black</item>
+        <item name="android:textColorHint">@color/font_gray</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@android:color/transparent</item>
+    </style>
+
+    <!-- 自定义dialogActivity的样式 -->
+    <style name="MyDialogStyle">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowContentOverlay">@null</item>
+        <item name="android:windowAnimationStyle">@style/AnimBottom</item>
+        <item name="android:backgroundDimEnabled">true</item>
+    </style>
+    <style name="AnimBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/popshow_anim</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+
+    <style name="star_rating" parent="@android:style/Widget.RatingBar">
+        <item name="android:progressDrawable">@drawable/star_rating</item>
+        <item name="android:minHeight">25dp</item>
+        <item name="android:maxHeight">20dp</item>
+    </style>
+    <style name="Theme_Light" parent="Theme.AppCompat.Light.NoActionBar">
+        <!--<item name="gallery_ucrop_title_text">@string/gallery_ucrop_menu_crop</item>-->
+    </style>
+    <!--<style name="Theme_Light.White">-->
+        <!--<item name="colorPrimary">@color/colorPrimary</item>-->
+        <!--<item name="colorPrimaryDark">@color/colorPrimaryDark</item>-->
+        <!--<item name="colorAccent">@color/font_blue</item>-->
+        <!--<item name="gallery_toolbar_bg">@color/white</item>-->
+        <!--<item name="gallery_toolbar_close_color">@color/font_blue</item>-->
+        <!--<item name="gallery_toolbar_text_color">@color/font_blue</item>-->
+        <!--<item name="gallery_page_bg">#FFFFFF</item>-->
+        <!--<item name="gallery_toolbar_over_button_bg">@drawable/gallery_btn_bg</item>-->
+        <!--<item name="gallery_default_image">@mipmap/default_im</item>-->
+        <!--<item name="gallery_imageview_bg">#FFFFFF</item>-->
+    <!--</style>-->
 </resources>

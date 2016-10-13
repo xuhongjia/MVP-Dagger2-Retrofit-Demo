@@ -34,9 +34,9 @@ public class WechatPayHelper {
     StringBuffer sb;
     Map<String,String> resultunifiedorder;
 
-    public  String appId = "wx1ba1fab6a763f7de";
-    public  String appKey ="fuwQfq3u3uMEndMrCOQKcLqGiZeEKtCV";
-    public  String partnerId ="1370714902";
+    public  String appId = "wx764c2980148320c9";
+    public  String appKey ="eba53eeccb23c57f7a015fc1d1cf89ff";
+    public  String partnerId ="1386467402";
     public  String tradeNo;
     public  float price;
     public  String notify_url;

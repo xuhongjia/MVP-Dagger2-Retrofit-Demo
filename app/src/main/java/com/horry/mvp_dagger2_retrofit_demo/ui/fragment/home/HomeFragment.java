@@ -53,12 +53,8 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
     @BindView(R.id.ad_view)
     ImageCycleView adView;
 
-    private ArrayList<BasePic> data = new ArrayList<>();
-    private List<Product> pics = new ArrayList<>();
-    private List<Goods> goodses = new ArrayList<>();
     private RecycleViewBaseAdapter<Product> adapter;
     private GoodsAdapter goodsAdapter;
-    private Home home;
 
     @Override
     public int _setContentView() {
@@ -76,14 +72,9 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
             public void convert(RecycleViewHolder holder, Product product) {
                 holder.setText(R.id.name, product.getName());
                 ImageView imageView = holder.getView(R.id.img);
-//                ViewGroup.LayoutParams lp = imageView.getLayoutParams();
-//                lp.height = getScreenWidth(getContext()) / 4 - LZUtils.dipToPix(getContext(), 40);
-//                lp.width = getScreenWidth(getContext()) / 4 - LZUtils.dipToPix(getContext(), 40);
                 int width = getScreenWidth(getContext()) / 4 - LZUtils.dipToPix(getContext(), 40);
                 Glide.with(mContext)
                         .load(product.getPic()).diskCacheStrategy(DiskCacheStrategy.ALL).override(width,width).into(imageView);
-//                ImageLoader.getInstance().displayImage(product.getPic(), imageView);
-//                ((ImageView)holder.getView(R.id.img)).setImageDrawable(getResources().getDrawable(Integer.parseInt(product.getPic())));
             }
         };
         category.setAdapter(adapter);
@@ -103,15 +94,10 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
         public void displayImage(String imageURL, ImageView imageView) {
             Glide.with(mContext)
                     .load(imageURL).diskCacheStrategy(DiskCacheStrategy.ALL).centerCrop().into(imageView);
-//            ImageLoader.getInstance().displayImage(imageURL, imageView);
-//            imageView.setImageDrawable(getResources().getDrawable(Integer.parseInt(imageURL)));
-//            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
         }
 
         @Override
         public void onImageClick(Object info, int postion, View imageView) {
-//            ((Flashes)info).getAd_type().equals("html5");
-//            goToAdContent(home.getFlashes().get(postion));
         }
     };
 
@@ -147,12 +133,13 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
 
     @Override
     protected void setupFragmentComponent(AppComponent appComponent) {
-        DaggerHomeFragementComponent
-                .builder()
-                .appComponent(appComponent)
-                .homeFragmentModule(new HomeFragmentModule(this))
-                .build()
-                .inject(this);
+        appComponent.inject(this);
+//        DaggerHomeFragementComponent
+//                .builder()
+//                .appComponent(appComponent)
+//                .homeFragmentModule(new HomeFragmentModule(this))
+//                .build()
+//                .inject(this);
     }
 
     @Override
