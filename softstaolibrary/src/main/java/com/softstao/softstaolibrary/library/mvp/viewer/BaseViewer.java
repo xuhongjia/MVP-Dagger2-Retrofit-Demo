@@ -51,4 +51,6 @@ public interface BaseViewer {
      * 关闭头部刷新
      */
     void closePtrFrameLayout();
+
+    void showLoader(boolean isShow);
 }

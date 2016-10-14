@@ -1,5 +1,6 @@
 package com.horry.mvp_dagger2_retrofit_demo.ui.activity.presenter;
 
+import com.horry.mvp_dagger2_retrofit_demo.data.ModelHelperImpl;
 import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiService;
 import com.horry.mvp_dagger2_retrofit_demo.ui.activity.MainActivity;
 
@@ -17,26 +18,22 @@ public class MainActivityPresenter extends BasePresenter<MainActivity> {
      * 构造方法
      *
      * @param viewer
-     * @param apiService
+     * @param helper
      */
     @Inject
-    public MainActivityPresenter(MainActivity viewer, ApiService apiService) {
-        super(viewer, apiService);
+    public MainActivityPresenter(MainActivity viewer, ModelHelperImpl helper) {
+        super(viewer, helper);
     }
 
-    @Override
-    public void loadData(Object t) {
-
-    }
 
     public void showUserName(){
         viewer.setTextView("成功");
     }
 
     public void getCode(){
-        subscribe(apiService.getCode("18127918232"), code-> {
-            viewer.setTextView(code.getCode()+"");
-        },true);
+//        subscribe(apiService.getCode("18127918232"), code-> {
+//            viewer.setTextView(code.getCode()+"");
+//        },true);
     }
 
 }

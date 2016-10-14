@@ -29,6 +29,7 @@ public class HomeFragmentPresenter extends BasePresenter<HomeFragment> {
     private List<Product> pics = new ArrayList<>();
     private List<Goods> goodses = new ArrayList<>();
     private int goodsSize=0;
+    private int picSize=0;
     /**
      * 构造方法
      *
@@ -48,18 +49,19 @@ public class HomeFragmentPresenter extends BasePresenter<HomeFragment> {
             } else if (home.getGoods() == null ||home.getGoods().size()==0) {
                 viewer.noMoreData();
             } else {
+                goodsSize = goodses.size();
                 if(currentPage==0){
                     goodses.clear();
-                    if (data.size() == 0 || !data.get(0).getId().equals(home.getFlashes().get(0).getId())){
+                    if (data.size() == 0 || !data.get(0).getPic().equals(home.getFlashes().get(0).getPic())){
                         data.clear();
                         data.addAll(home.getFlashes());
                     }
                     if (home.getCategory() != null && home.getCategory().size() != pics.size()) {
+                        picSize=pics.size();
                         pics.clear();
                         pics.addAll(home.getCategory());
                     }
                 }
-                goodsSize = goodses.size();
                 goodses.addAll(home.getGoods());
                 viewer.HomeReturn();
             }
@@ -100,5 +102,13 @@ public class HomeFragmentPresenter extends BasePresenter<HomeFragment> {
 
     public void setGoodsSize(int goodsSize) {
         this.goodsSize = goodsSize;
+    }
+
+    public int getPicSize() {
+        return picSize;
+    }
+
+    public void setPicSize(int picSize) {
+        this.picSize = picSize;
     }
 }

@@ -173,7 +173,9 @@ public class ImageCycleView extends LinearLayout {
         stopImageTimerTask();
         // 图片每3秒滚动一次
 //        mHandler.postDelayed(mImageTimerTask, 3000);
-        mHandler.sendEmptyMessageDelayed(100,3000);
+        if(data.size()>0){
+            mHandler.sendEmptyMessageDelayed(100,3000);
+        }
     }
 
     /**
@@ -188,7 +190,7 @@ public class ImageCycleView extends LinearLayout {
         public void handleMessage(Message msg) {
             super.handleMessage(msg);
             if(msg.what==100){
-                if (mImageViews != null) {
+                if (data.size()>0&&mImageViews != null) {
                     // 下标等于图片列表长度说明已滚动到最后一张图片,重置下标
                     mImageIndex++;
                     mBannerPager.setCurrentItem(mImageIndex);
@@ -339,5 +341,13 @@ public class ImageCycleView extends LinearLayout {
 
     public void setmAdvAdapter(PagerAdapter mAdvAdapter) {
         this.mAdvAdapter = mAdvAdapter;
+    }
+
+    public ArrayList<BasePic> getData() {
+        return data;
+    }
+
+    public void setData(ArrayList<BasePic> data) {
+        this.data = data;
     }
 }

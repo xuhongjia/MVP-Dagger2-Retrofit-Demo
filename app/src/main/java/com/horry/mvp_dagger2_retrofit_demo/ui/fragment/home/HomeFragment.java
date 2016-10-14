@@ -4,6 +4,7 @@ package com.horry.mvp_dagger2_retrofit_demo.ui.fragment.home;
 import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SimpleItemAnimator;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,6 +24,7 @@ import com.horry.mvp_dagger2_retrofit_demo.ui.activity.viewer.home.HomeViewer;
 import com.horry.mvp_dagger2_retrofit_demo.ui.adapter.GoodsAdapter;
 import com.horry.mvp_dagger2_retrofit_demo.ui.fragment.BaseFragment;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.softstao.softstaolibrary.library.mvp.animator.DefaultAnimator;
 import com.softstao.softstaolibrary.library.mvp.baseAdapter.RecycleViewBaseAdapter;
 import com.softstao.softstaolibrary.library.mvp.baseAdapter.RecycleViewHolder;
 import com.softstao.softstaolibrary.library.utils.LZUtils;
@@ -79,10 +81,12 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
         };
         category.setAdapter(adapter);
         category.setLayoutManager(new FullyGridLayoutManager(getContext(), 4));
+        ((SimpleItemAnimator)category.getItemAnimator()).setSupportsChangeAnimations(false);
         goodsAdapter = new GoodsAdapter(presenter.getGoodses());
         goodsList.setAdapter(goodsAdapter);
         goodsList.setLayoutManager(new FullyGridLayoutManager(getContext(), 2));
         goodsList.addItemDecoration(new MarginDecoration(getContext()));
+        ((SimpleItemAnimator)goodsList.getItemAnimator()).setSupportsChangeAnimations(false);
         tintManager.setStatusBarTintColor(Color.TRANSPARENT);
         startAdView();
     }
@@ -105,7 +109,7 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
     @Override
     public void onResume() {
         super.onResume();
-        if(adView!=null){
+        if(adView!=null&&presenter.getData().size()>0){
             adView.startImageCycle();
         }
     }
@@ -113,7 +117,7 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
     @Override
     public void onPause() {
         super.onPause();
-        if(adView!=null){
+        if(adView!=null&&presenter.getData().size()>0){
             adView.pushImageCycle();
         }
     }
@@ -121,7 +125,7 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        if(adView!=null){
+        if(adView!=null&&presenter.getData().size()>0){
             if(isVisibleToUser){
                 adView.startImageCycle();
             }
@@ -133,13 +137,13 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
 
     @Override
     protected void setupFragmentComponent(AppComponent appComponent) {
-        appComponent.inject(this);
-//        DaggerHomeFragementComponent
-//                .builder()
-//                .appComponent(appComponent)
-//                .homeFragmentModule(new HomeFragmentModule(this))
-//                .build()
-//                .inject(this);
+//        appComponent.inject(this);
+        DaggerHomeFragementComponent
+                .builder()
+                .appComponent(appComponent)
+                .homeFragmentModule(new HomeFragmentModule(this))
+                .build()
+                .inject(this);
     }
 
     @Override
@@ -152,10 +156,13 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
     @Override
     public void HomeReturn() {
         if (currentPage == 0) {
-            adView.getmAdvAdapter().notifyDataSetChanged();
-            adapter.notifyDataSetChanged();
+            if(adView.getData().size()==0) {startAdView();}
+            if(adView.getmAdvAdapter()!=null) {adView.getmAdvAdapter().notifyDataSetChanged();}
+            adapter.notifyItemRangeRemoved(0,presenter.getPicSize());
+            adapter.notifyItemRangeInserted(0,presenter.getPics().size());
+            goodsAdapter.notifyItemRangeRemoved(0,presenter.getGoodsSize());
         }
-        goodsAdapter.notifyItemRangeInserted(presenter.getGoodsSize(), ApiService.pageSize);
+        goodsAdapter.notifyItemRangeInserted(presenter.getGoodses().size()-ApiService.pageSize, ApiService.pageSize);
     }
 
     @Override
@@ -164,7 +171,7 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
     }
 
     protected void startAdView(){
-        if(presenter.getData()!=null) {
+        if(presenter.getData().size()>0) {
             adView.setImageResources(presenter.getData(), mAdCycleViewListener);
         }
     }

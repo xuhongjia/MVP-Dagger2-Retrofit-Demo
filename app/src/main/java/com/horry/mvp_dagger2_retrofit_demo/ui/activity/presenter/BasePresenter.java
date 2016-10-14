@@ -9,8 +9,12 @@ import com.horry.mvp_dagger2_retrofit_demo.data.ModelHelperImpl;
 import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiService;
 import com.horry.mvp_dagger2_retrofit_demo.model.Response;
 import com.horry.mvp_dagger2_retrofit_demo.model.home.Home;
+import com.horry.mvp_dagger2_retrofit_demo.ui.fragment.BaseFragment;
 import com.softstao.softstaolibrary.library.mvp.presenter.MvpPresenter;
 import com.softstao.softstaolibrary.library.mvp.viewer.BaseViewer;
+
+import java.net.UnknownHostException;
+import java.util.concurrent.TimeUnit;
 
 import javax.inject.Inject;
 
@@ -43,7 +47,7 @@ public abstract class BasePresenter<V extends BaseViewer> implements MvpPresente
         this.viewer=viewer;
         this.helper =helper;
     }
-
+    protected Handler handler =new Handler();
     /**
      * 订阅对象
      */
@@ -71,6 +75,8 @@ public abstract class BasePresenter<V extends BaseViewer> implements MvpPresente
         }
         unsubscribe();
         subscription = observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .filter(mResponse ->{
                     int error = mResponse.getError();
                     if(error!=0){
@@ -80,7 +86,7 @@ public abstract class BasePresenter<V extends BaseViewer> implements MvpPresente
                         }
                         switch (error){
                             case 1:
-                                onError(new Throwable(mResponse.getMsg()),pullToRefresh);
+                                Observable.error(new Throwable(mResponse.getMsg()));
                                 return false;
                             case -100:
                                 viewer.noLogin();
@@ -89,24 +95,25 @@ public abstract class BasePresenter<V extends BaseViewer> implements MvpPresente
                     }
                     return true;
                 })
-                .map(mResponse -> mResponse.getData())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(action1,
+                .map(mResponse -> {
+                    if (viewer!=null) {
+                        viewer.showContent();
+                        viewer.closePtrFrameLayout();
+                        viewer.showLoader(false);
+                    }
+                    return mResponse.getData();
+                })
+                .retryWhen(observable1 -> observable1.flatMap(throwable->{
+                    if (throwable instanceof UnknownHostException) {
+                        return Observable.error(throwable);
+                    }
+                    return Observable.timer(5, TimeUnit.SECONDS);
+                }))
+                .subscribe(t -> {
+                            Observable.timer(300,TimeUnit.MILLISECONDS,AndroidSchedulers.mainThread()).subscribe(aLong -> action1.call(t));
+                        },
                         throwable -> {this.onError(throwable,pullToRefresh);},
-                        this::onCompleted);
-    }
-
-
-    /**
-     * 事件结束时调用
-     */
-    protected void onCompleted() {
-        if (viewer!=null) {
-            viewer.showContent();
-            viewer.closePtrFrameLayout();
-        }
-        unsubscribe();
+                        this::unsubscribe);
     }
 
     /**

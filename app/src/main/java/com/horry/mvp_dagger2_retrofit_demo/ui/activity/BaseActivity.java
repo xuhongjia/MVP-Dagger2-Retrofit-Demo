@@ -159,7 +159,8 @@ public abstract class BaseActivity extends MvpBaseActivity {
      * 显示加载更多view
      * @param isShow 是否显示
      */
-    private void showLoader(boolean isShow){
+    @Override
+    public void showLoader(boolean isShow){
         if(isShow){
             loaderLayout.setVisibility(View.VISIBLE);
         }

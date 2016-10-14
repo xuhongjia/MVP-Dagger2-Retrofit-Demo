@@ -9,6 +9,7 @@ import com.horry.mvp_dagger2_retrofit_demo.AppApplication;
 import com.horry.mvp_dagger2_retrofit_demo.AppComponent;
 import com.horry.mvp_dagger2_retrofit_demo.R;
 import com.horry.mvp_dagger2_retrofit_demo.global.UserManager;
+import com.horry.mvp_dagger2_retrofit_demo.ui.activity.BaseActivity;
 import com.softstao.softstaolibrary.library.mvp.fragment.MvpBaseFragment;
 import com.softstao.softstaolibrary.library.utils.LZUtils;
 
@@ -24,8 +25,6 @@ import in.srain.cube.views.ptr.PtrFrameLayout;
 public abstract class BaseFragment extends MvpBaseFragment {
     private int yScroll=0;
     private int imageHeight ;
-    public int pageSize = 8;
-    public int offset = 0;
     protected Integer currentPage = 0;
     private int red;
     private int green;
@@ -85,9 +84,11 @@ public abstract class BaseFragment extends MvpBaseFragment {
                 float alpha = (255 * scale);
                 // 只是layout背景透明(仿知乎滑动效果)
                 //设置滑动渐变颜色
+                ((BaseActivity)getContext()).StatusBarLightMode(true);
                 titleBar.setBackgroundColor(Color.argb((int) alpha, red, green, blue));
                 tintManager.setStatusBarTintColor(Color.argb((int) alpha, red, green, blue));
             } else {
+                ((BaseActivity)getContext()).StatusBarLightMode(false);
                 titleBar.setBackgroundColor(Color.argb( 255, red, green, blue));
                 tintManager.setStatusBarTintColor(Color.argb(255, red, green, blue));
             }
@@ -118,7 +119,8 @@ public abstract class BaseFragment extends MvpBaseFragment {
         }
     }
 
-    private void showLoader(boolean isShow){
+    @Override
+    public void showLoader(boolean isShow){
         if(isShow){
             loaderLayout.setVisibility(View.VISIBLE);
         }

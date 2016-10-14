@@ -27,12 +27,11 @@ import retrofit2.Retrofit;
 public interface AppComponent {
     void inject(BaseActivity mainActivity);
     void inject(BaseFragment baseFragment);
-    void inject();
     AppApplication getApplication();
 //    CookieManager getCookieManager();
     ApiService getApiService();
     Retrofit getRetrofit();
-    User getUser();
     SharePreferenceManager sharePreferenceManager();
     UserManager userManager();
+
 }
