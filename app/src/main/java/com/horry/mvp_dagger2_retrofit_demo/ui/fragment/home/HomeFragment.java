@@ -16,6 +16,7 @@ import com.horry.mvp_dagger2_retrofit_demo.R;
 import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiService;
 import com.horry.mvp_dagger2_retrofit_demo.model.User;
 import com.horry.mvp_dagger2_retrofit_demo.model.home.Product;
+import com.horry.mvp_dagger2_retrofit_demo.ui.activity.ActivityScope;
 import com.horry.mvp_dagger2_retrofit_demo.ui.viewer.HomeViewer;
 import com.horry.mvp_dagger2_retrofit_demo.ui.adapter.GoodsAdapter;
 import com.horry.mvp_dagger2_retrofit_demo.ui.fragment.BaseFragment;
@@ -41,6 +42,7 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
     @BindView(R.id.goods_list)
     RecyclerView goodsList;
     @Inject
+    @ActivityScope
     HomeFragmentPresenter presenter;
     @BindView(R.id.ad_view)
     ImageCycleView adView;

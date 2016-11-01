@@ -284,9 +284,12 @@ public class ImageCycleView extends LinearLayout {
                 imageView = mImageViewCacheList.remove(0);
             }
             // 设置图片点击监听
-            int finalPosition = position;
-            imageView.setOnClickListener(v -> {
-                mImageCycleViewListener.onImageClick(data.get(finalPosition), finalPosition, v);
+            final int finalPosition = position;
+            imageView.setOnClickListener(new OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mImageCycleViewListener.onImageClick(data.get(finalPosition), finalPosition, v);
+                }
             });
             container.addView(imageView);
             mImageCycleViewListener.displayImage(imageUrl, imageView);

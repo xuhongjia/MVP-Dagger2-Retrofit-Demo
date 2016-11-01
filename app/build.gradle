@@ -13,6 +13,10 @@ android {
         versionName "1.0"
         multiDexEnabled true
     }
+    dexOptions {
+        preDexLibraries = false
+        javaMaxHeapSize "4g"   //这个改大
+    }
     buildTypes {
         release {
             minifyEnabled true
@@ -48,7 +52,9 @@ dependencies {
     compile('com.jakewharton:butterknife:8.2.1') {
         exclude module: 'support-annotations'
     }
-    apt 'com.jakewharton:butterknife-compiler:8.2.1'
+    apt ('com.jakewharton:butterknife-compiler:8.2.1'){
+        exclude module: 'support-annotations'
+    }
     //内存溢出检测
     debugCompile 'com.squareup.leakcanary:leakcanary-android:1.4-beta2'
     releaseCompile 'com.squareup.leakcanary:leakcanary-android-no-op:1.4-beta2'

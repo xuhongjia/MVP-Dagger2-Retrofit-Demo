@@ -9,7 +9,6 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.horry.mvp_dagger2_retrofit_demo.AppApplication;
 import com.horry.mvp_dagger2_retrofit_demo.R;
 import com.horry.mvp_dagger2_retrofit_demo.model.goods.Goods;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.softstao.softstaolibrary.library.mvp.baseAdapter.RecycleViewBaseAdapter;
 import com.softstao.softstaolibrary.library.mvp.baseAdapter.RecycleViewHolder;
 import com.softstao.softstaolibrary.library.utils.LZUtils;
