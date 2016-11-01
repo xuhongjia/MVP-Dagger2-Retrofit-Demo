@@ -13,6 +13,7 @@ import com.horry.mvp_dagger2_retrofit_demo.model.User;
 import com.horry.mvp_dagger2_retrofit_demo.ui.activity.BaseActivity;
 import com.horry.mvp_dagger2_retrofit_demo.ui.activity.MainActivity;
 import com.horry.mvp_dagger2_retrofit_demo.ui.fragment.BaseFragment;
+import com.softstao.softstaolibrary.library.mvp.viewer.BaseViewer;
 
 import javax.inject.Singleton;
 
@@ -25,8 +26,7 @@ import retrofit2.Retrofit;
 @Singleton
 @Component(modules = {AppModule.class, AppServiceModule.class, ApiServiceModule.class})
 public interface AppComponent {
-    void inject(BaseActivity mainActivity);
-    void inject(BaseFragment baseFragment);
+    void inject(BaseViewer viewer);
     AppApplication getApplication();
 //    CookieManager getCookieManager();
     ApiService getApiService();

@@ -41,13 +41,22 @@ public abstract class BasePresenter<V extends BaseViewer> implements MvpPresente
     protected Integer currentPage = 0;
     /**
      * 构造方法
+     * @param helper
+     */
+    public BasePresenter(ModelHelperImpl helper){
+        this.helper =helper;
+    }
+
+    /**
+     * 构造方法
      * @param viewer
+     * @param helper
      */
     public BasePresenter(V viewer,ModelHelperImpl helper){
         this.viewer=viewer;
         this.helper =helper;
     }
-    protected Handler handler =new Handler();
+
     /**
      * 订阅对象
      */
@@ -105,13 +114,11 @@ public abstract class BasePresenter<V extends BaseViewer> implements MvpPresente
                 })
                 .retryWhen(observable1 -> observable1.flatMap(throwable->{
                     if (throwable instanceof UnknownHostException) {
-                        return Observable.error(throwable);
+                        Observable.error(throwable) ;
                     }
                     return Observable.timer(5, TimeUnit.SECONDS);
                 }))
-                .subscribe(t -> {
-                            Observable.timer(300,TimeUnit.MILLISECONDS,AndroidSchedulers.mainThread()).subscribe(aLong -> action1.call(t));
-                        },
+                .subscribe(t -> Observable.timer(500,TimeUnit.MILLISECONDS,AndroidSchedulers.mainThread()).subscribe(aLong -> action1.call(t)),
                         throwable -> {this.onError(throwable,pullToRefresh);},
                         this::unsubscribe);
     }
@@ -127,5 +134,13 @@ public abstract class BasePresenter<V extends BaseViewer> implements MvpPresente
             viewer.closePtrFrameLayout();
         }
         unsubscribe();
+    }
+
+    public V getViewer() {
+        return viewer;
+    }
+
+    public void setViewer(V viewer) {
+        this.viewer = viewer;
     }
 }

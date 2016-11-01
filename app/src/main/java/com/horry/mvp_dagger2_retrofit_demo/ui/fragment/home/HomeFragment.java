@@ -40,6 +40,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 
+import static com.squareup.leakcanary.ExcludedRefs.builder;
+
 /**
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
@@ -91,7 +93,6 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
         startAdView();
     }
 
-    //<!--softstao!-->
     //轮播图跳转
     private ImageCycleView.ImageCycleViewListener mAdCycleViewListener = new ImageCycleView.ImageCycleViewListener() {
         @Override
@@ -141,9 +142,9 @@ public class HomeFragment extends BaseFragment implements HomeViewer {
         DaggerHomeFragementComponent
                 .builder()
                 .appComponent(appComponent)
-                .homeFragmentModule(new HomeFragmentModule(this))
                 .build()
                 .inject(this);
+        presenter.setViewer(this);
     }
 
     @Override

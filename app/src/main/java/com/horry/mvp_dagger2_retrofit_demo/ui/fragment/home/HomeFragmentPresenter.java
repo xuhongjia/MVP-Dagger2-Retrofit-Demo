@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
+import javax.inject.Singleton;
 
 import rx.Observable;
 import rx.android.schedulers.AndroidSchedulers;
@@ -32,13 +33,11 @@ public class HomeFragmentPresenter extends BasePresenter<HomeFragment> {
     private int picSize=0;
     /**
      * 构造方法
-     *
-     * @param viewer
      * @param helper
      */
     @Inject
-    public HomeFragmentPresenter(HomeFragment viewer, ModelHelperImpl helper) {
-        super(viewer, helper);
+    public HomeFragmentPresenter(ModelHelperImpl helper) {
+        super(helper);
     }
 
     public void getHome(int currentPage,boolean pullToRefresh){
