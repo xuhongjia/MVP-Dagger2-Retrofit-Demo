@@ -5,9 +5,7 @@ import android.graphics.Color;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SimpleItemAnimator;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -17,30 +15,20 @@ import com.horry.mvp_dagger2_retrofit_demo.AppComponent;
 import com.horry.mvp_dagger2_retrofit_demo.R;
 import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiService;
 import com.horry.mvp_dagger2_retrofit_demo.model.User;
-import com.horry.mvp_dagger2_retrofit_demo.model.goods.Goods;
-import com.horry.mvp_dagger2_retrofit_demo.model.home.Home;
 import com.horry.mvp_dagger2_retrofit_demo.model.home.Product;
-import com.horry.mvp_dagger2_retrofit_demo.ui.activity.viewer.home.HomeViewer;
+import com.horry.mvp_dagger2_retrofit_demo.ui.viewer.HomeViewer;
 import com.horry.mvp_dagger2_retrofit_demo.ui.adapter.GoodsAdapter;
 import com.horry.mvp_dagger2_retrofit_demo.ui.fragment.BaseFragment;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.softstao.softstaolibrary.library.mvp.animator.DefaultAnimator;
 import com.softstao.softstaolibrary.library.mvp.baseAdapter.RecycleViewBaseAdapter;
 import com.softstao.softstaolibrary.library.mvp.baseAdapter.RecycleViewHolder;
 import com.softstao.softstaolibrary.library.utils.LZUtils;
 import com.softstao.softstaolibrary.library.widget.FullyGridLayoutManager;
 import com.softstao.softstaolibrary.library.widget.MarginDecoration;
-import com.softstao.softstaolibrary.library.widget.cyckeView.BasePic;
 import com.softstao.softstaolibrary.library.widget.cyckeView.ImageCycleView;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
-
-import static com.squareup.leakcanary.ExcludedRefs.builder;
 
 /**
  * A simple {@link Fragment} subclass.

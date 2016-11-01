@@ -1,4 +1,4 @@
-package com.horry.mvp_dagger2_retrofit_demo.ui.activity.presenter;
+package com.horry.mvp_dagger2_retrofit_demo;
 
 import android.os.Bundle;
 import android.os.Handler;

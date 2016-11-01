@@ -1,25 +1,15 @@
 package com.horry.mvp_dagger2_retrofit_demo.ui.fragment.home;
 
 import com.horry.mvp_dagger2_retrofit_demo.data.ModelHelperImpl;
-import com.horry.mvp_dagger2_retrofit_demo.data.api.ApiService;
 import com.horry.mvp_dagger2_retrofit_demo.model.goods.Goods;
-import com.horry.mvp_dagger2_retrofit_demo.model.home.Home;
 import com.horry.mvp_dagger2_retrofit_demo.model.home.Product;
-import com.horry.mvp_dagger2_retrofit_demo.ui.activity.presenter.BasePresenter;
+import com.horry.mvp_dagger2_retrofit_demo.BasePresenter;
 import com.softstao.softstaolibrary.library.widget.cyckeView.BasePic;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
-
-import rx.Observable;
-import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Action1;
-import rx.schedulers.Schedulers;
 
 /**
  * Created by xuhon on 2016/8/3.

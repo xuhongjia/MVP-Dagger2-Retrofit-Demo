@@ -1,7 +1,6 @@
-package com.horry.mvp_dagger2_retrofit_demo.ui.activity.viewer.home;
+package com.horry.mvp_dagger2_retrofit_demo.ui.viewer;
 
 import com.horry.mvp_dagger2_retrofit_demo.model.User;
-import com.horry.mvp_dagger2_retrofit_demo.model.home.Home;
 import com.softstao.softstaolibrary.library.mvp.viewer.BaseViewer;
 
 /**

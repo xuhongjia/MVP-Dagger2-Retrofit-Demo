@@ -1,4 +1,4 @@
-package com.horry.mvp_dagger2_retrofit_demo.ui.activity.module;
+package com.horry.mvp_dagger2_retrofit_demo;
 
 import com.softstao.softstaolibrary.library.mvp.viewer.BaseViewer;
 

@@ -1,6 +1,5 @@
-package com.horry.mvp_dagger2_retrofit_demo.ui.activity;
+package com.horry.mvp_dagger2_retrofit_demo.ui.activity.main;
 
-import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.view.View;
@@ -8,7 +7,8 @@ import android.widget.RadioButton;
 
 import com.horry.mvp_dagger2_retrofit_demo.AppComponent;
 import com.horry.mvp_dagger2_retrofit_demo.R;
-import com.horry.mvp_dagger2_retrofit_demo.ui.activity.viewer.home.MainViewer;
+import com.horry.mvp_dagger2_retrofit_demo.ui.activity.BaseActivity;
+import com.horry.mvp_dagger2_retrofit_demo.ui.viewer.MainViewer;
 import com.horry.mvp_dagger2_retrofit_demo.ui.fragment.BaseFragment;
 import com.horry.mvp_dagger2_retrofit_demo.ui.fragment.home.HomeFragment;
 import com.softstao.softstaolibrary.library.widget.NonSwipeableViewPager;
@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.ButterKnife;
 
 
 public class MainActivity extends BaseActivity implements MainViewer {
@@ -106,7 +105,7 @@ public class MainActivity extends BaseActivity implements MainViewer {
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-        appComponent.inject(this);
+//        appComponent.inject(this);
     }
 
     public void setTextView(String username) {

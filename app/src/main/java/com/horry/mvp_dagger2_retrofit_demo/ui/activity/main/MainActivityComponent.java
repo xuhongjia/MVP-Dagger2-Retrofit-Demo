@@ -1,12 +1,9 @@
-package com.horry.mvp_dagger2_retrofit_demo.ui.activity.component;
+package com.horry.mvp_dagger2_retrofit_demo.ui.activity.main;
 
 
 
 import com.horry.mvp_dagger2_retrofit_demo.AppComponent;
 import com.horry.mvp_dagger2_retrofit_demo.ui.activity.ActivityScope;
-import com.horry.mvp_dagger2_retrofit_demo.ui.activity.MainActivity;
-import com.horry.mvp_dagger2_retrofit_demo.ui.activity.module.MainActivityModule;
-import com.horry.mvp_dagger2_retrofit_demo.ui.activity.presenter.MainActivityPresenter;
 
 import dagger.Component;
 
