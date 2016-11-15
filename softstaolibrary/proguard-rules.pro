@@ -108,7 +108,7 @@
 #---------------------------------实体类---------------------------------
 -keepclassmembers interface ** { *; }
 -keepclassmembers abstract class ** { *; }
--keepclassmembers class com.softstao.softstaolibrary.** { *; }
+-keepclassmembers class com.softstao.softstaolibrary.** { public *; }
 #---------------------------------第三方包-------------------------------
 
 #支付宝支付
